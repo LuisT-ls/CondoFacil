@@ -2,29 +2,117 @@
    DASHBOARD.CSS - Estilos específicos para o dashboard
    =================================================================== */
 
-/* Seção do Dashboard */
+/* Dashboard Styles */
 .dashboard-section {
   padding: 2rem 0;
-  background: var(--light-background);
   min-height: calc(100vh - 200px);
 }
 
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dashboard Header */
 .dashboard-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
-.dashboard-header h2 {
-  font-size: 2.5rem;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.dashboard-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
 }
 
-.dashboard-header p {
-  color: var(--light-text);
-  font-size: 1.1rem;
-  line-height: 1.6;
+/* User Info */
+.user-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--surface-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.user-greeting {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.user-greeting #user-name {
+  color: var(--accent-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.user-role {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.user-role #user-role {
+  font-weight: var(--font-weight-semibold);
+  color: var(--accent-color);
+}
+
+/* Logout Container */
+.logout-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.btn--secondary {
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  transition: all var(--transition-speed);
+}
+
+.btn--secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.btn--secondary:active {
+  transform: translateY(1px);
+}
+
+/* Menu Options */
+.menu-opcoes {
+  margin-top: 2rem;
+}
+
+.menu-opcoes .btn {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all var(--transition-speed);
+}
+
+.menu-opcoes .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.menu-opcoes .btn:active {
+  transform: translateY(0);
 }
 
 /* Grid do Dashboard */
@@ -160,49 +248,6 @@
   font-size: 0.8rem;
 }
 
-/* Card de Informações do Usuário */
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.user-avatar {
-  width: 60px;
-  height: 60px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.user-details h4 {
-  margin: 0 0 0.5rem 0;
-  color: var(--text-color);
-  font-size: 1.2rem;
-}
-
-.user-details p {
-  margin: 0 0 0.5rem 0;
-  color: var(--light-text);
-  font-size: 0.9rem;
-}
-
-.user-role {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: var(--success-color);
-  color: white;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: capitalize;
-}
-
 /* Estados de loading */
 .loading {
   opacity: 0.7;
@@ -231,6 +276,23 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .dashboard-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .user-greeting {
+    font-size: var(--font-size-lg);
+  }
+
+  .user-role {
+    font-size: var(--font-size-sm);
+  }
+
   .dashboard-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -264,6 +326,20 @@
 @media (max-width: 480px) {
   .dashboard-section {
     padding: 1rem 0;
+  }
+
+  .dashboard-container {
+    padding: 0.75rem;
+    margin: 0.5rem;
+  }
+
+  .user-info {
+    padding: 1rem;
+  }
+
+  .menu-opcoes .btn {
+    padding: 0.75rem 1rem;
+    font-size: var(--font-size-sm);
   }
 
   .dashboard-card {
