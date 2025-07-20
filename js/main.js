@@ -1,12 +1,12 @@
 // Importar configuração do Firebase
-import { app, analytics, auth, db, storage } from './modules/firebase-config.js'
+import { app, auth, db, storage } from './modules/firebase-config.js'
 import { authService } from './modules/auth.js'
 import { databaseService } from './modules/database.js'
 
 // Função para inicializar a aplicação
 function initializeApp() {
   console.log('🚀 CondoFácil iniciado com Firebase!')
-  console.log('📊 Analytics:', analytics)
+  // Analytics removido - não está sendo usado no projeto
   console.log('🔐 Auth:', auth)
   console.log('🗄️ Firestore:', db)
   console.log('📁 Storage:', storage)

@@ -1,6 +1,13 @@
 // Módulo de Registro de Usuários
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import {
+  createUserWithEmailAndPassword,
+  updateProfile
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
+import {
+  doc,
+  setDoc,
+  getDoc
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
 import { auth, db } from './firebase-config.js'
 
 /**
@@ -78,15 +85,15 @@ export async function registerUser(nome, email, senha, papel) {
  */
 export async function registerGoogleUser(user, papel) {
   try {
-    console.log('🚀 Iniciando registro de usuário Google:', { 
-      nome: user.displayName, 
-      email: user.email, 
-      papel 
+    console.log('🚀 Iniciando registro de usuário Google:', {
+      nome: user.displayName,
+      email: user.email,
+      papel
     })
 
     // Verificar se o usuário já existe no Firestore
     const existingUser = await getUserData(user.uid)
-    
+
     if (existingUser) {
       console.log('✅ Usuário Google já existe no Firestore')
       return {

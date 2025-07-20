@@ -8,7 +8,7 @@ import {
   updateProfile,
   GoogleAuthProvider,
   signInWithPopup
-} from 'firebase/auth'
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
 import { auth } from './firebase-config.js'
 
 class AuthService {
