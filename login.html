@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - CondoFácil</title>
+    <meta
+      name="description"
+      content="Faça login no CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/login.css" />
+
+    <!-- Firebase SDK -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="index.html#features">Funcionalidades</a></li>
+              <li><a href="index.html#about">Sobre</a></li>
+              <li><a href="index.html#contact">Contato</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="login-section">
+        <div class="container">
+          <div class="login-container">
+            <div class="login-header">
+              <h2>Entrar</h2>
+              <p>Faça login para acessar sua conta</p>
+            </div>
+
+            <form id="login-form" class="login-form" novalidate>
+              <div class="form-group">
+                <label for="email-login" class="form-label">
+                  E-mail
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email-login"
+                  name="email"
+                  class="form-input"
+                  placeholder="seu@email.com"
+                  required
+                  autocomplete="email"
+                  aria-describedby="email-login-error"
+                />
+                <div
+                  id="email-login-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="senha-login" class="form-label">
+                  Senha
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="password"
+                  id="senha-login"
+                  name="senha"
+                  class="form-input"
+                  placeholder="Digite sua senha"
+                  required
+                  autocomplete="current-password"
+                  aria-describedby="senha-login-error"
+                />
+                <div
+                  id="senha-login-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn-entrar" id="btn-entrar">
+                  <span class="btn-text">Entrar</span>
+                  <span class="btn-loading" style="display: none">
+                    <span class="spinner"></span>
+                    Entrando...
+                  </span>
+                </button>
+              </div>
+            </form>
+
+            <div class="login-footer">
+              <p class="cadastro-link">
+                Não tem conta?
+                <a href="cadastro.html" class="link-cadastro">Criar conta</a>
+              </p>
+              <p class="esqueceu-senha">
+                <a href="#" class="link-esqueceu-senha">Esqueceu sua senha?</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro - CondoFácil</title>
+    <meta
+      name="description"
+      content="Cadastre-se no CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/cadastro.css" />
+
+    <!-- Firebase SDK -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="index.html#features">Funcionalidades</a></li>
+              <li><a href="index.html#about">Sobre</a></li>
+              <li><a href="index.html#contact">Contato</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="cadastro-section">
+        <div class="container">
+          <div class="cadastro-container">
+            <div class="cadastro-header">
+              <h2>Criar Conta</h2>
+              <p>
+                Junte-se ao CondoFácil e simplifique a gestão do seu condomínio
+              </p>
+            </div>
+
+            <form id="cadastro-form" class="cadastro-form" novalidate>
+              <div class="form-group">
+                <label for="nome-completo" class="form-label">
+                  Nome Completo
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="nome-completo"
+                  name="nome-completo"
+                  class="form-input"
+                  placeholder="Digite seu nome completo"
+                  required
+                  autocomplete="name"
+                  aria-describedby="nome-error"
+                />
+                <div
+                  id="nome-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">
+                  E-mail
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="seu@email.com"
+                  required
+                  autocomplete="email"
+                  aria-describedby="email-error"
+                />
+                <div
+                  id="email-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="senha" class="form-label">
+                  Senha
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="password"
+                  id="senha"
+                  name="senha"
+                  class="form-input"
+                  placeholder="Mínimo 6 caracteres"
+                  required
+                  autocomplete="new-password"
+                  aria-describedby="senha-error"
+                  minlength="6"
+                />
+                <div
+                  id="senha-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmar-senha" class="form-label">
+                  Confirmar Senha
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <input
+                  type="password"
+                  id="confirmar-senha"
+                  name="confirmar-senha"
+                  class="form-input"
+                  placeholder="Digite a senha novamente"
+                  required
+                  autocomplete="new-password"
+                  aria-describedby="confirmar-senha-error"
+                  minlength="6"
+                />
+                <div
+                  id="confirmar-senha-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="papel-usuario" class="form-label">
+                  Papel do Usuário
+                  <span class="required" aria-label="campo obrigatório">*</span>
+                </label>
+                <select
+                  id="papel-usuario"
+                  name="papel-usuario"
+                  class="form-select"
+                  required
+                  aria-describedby="papel-error"
+                >
+                  <option value="" disabled selected>
+                    Selecione seu papel
+                  </option>
+                  <option value="sindico">Síndico</option>
+                  <option value="morador">Morador</option>
+                </select>
+                <div
+                  id="papel-error"
+                  class="error-message"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn-cadastrar" id="btn-cadastrar">
+                  <span class="btn-text">Cadastrar</span>
+                  <span class="btn-loading" style="display: none">
+                    <span class="spinner"></span>
+                    Cadastrando...
+                  </span>
+                </button>
+              </div>
+            </form>
+
+            <div class="cadastro-footer">
+              <p class="login-link">
+                Já tem conta?
+                <a href="login.html" class="link-login">Fazer login</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/cadastro.js"></script>
+  </body>
+</html>
