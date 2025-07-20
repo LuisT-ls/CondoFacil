@@ -1,6 +1,11 @@
 // Dashboard Script
 import { getUserData } from './modules/userRole.js'
 import { auth } from './modules/firebase-config.js'
+import {
+  checkUserPermission,
+  protectUI,
+  getCurrentUserRole
+} from './modules/permissions.js'
 
 // DOM Elements
 const userNameElement = document.getElementById('user-name')
@@ -21,8 +26,11 @@ async function initDashboard() {
       // Setup logout functionality
       setupLogout()
 
-      // Render menu options based on user role
-      renderMenuOptions(userData.papel)
+      // Render menu options based on user role and permissions
+      await renderMenuOptions(userData.papel)
+
+      // Protect UI elements based on permissions
+      await protectUI()
     }
   } catch (error) {
     console.error('Erro ao inicializar dashboard:', error)
@@ -59,8 +67,8 @@ function setupLogout() {
   }
 }
 
-// Render menu options based on user role
-function renderMenuOptions(papel) {
+// Render menu options based on user role and permissions
+async function renderMenuOptions(papel) {
   if (!menuOpcoes) return
 
   // Clear existing content
@@ -69,24 +77,73 @@ function renderMenuOptions(papel) {
   let buttons = []
 
   if (papel === 'sindico') {
-    // Buttons for Síndico
-    buttons = [
-      { text: 'Gerenciar Reservas', action: 'gerenciar-reservas', icon: '📅' },
-      { text: 'Enviar Comunicados', action: 'enviar-comunicados', icon: '📢' },
-      { text: 'Prestação de Contas', action: 'prestacao-contas', icon: '💰' },
+    // Buttons for Síndico with permission checks
+    const sindicoButtons = [
+      {
+        text: 'Gerenciar Reservas',
+        action: 'gerenciar-reservas',
+        icon: '📅',
+        permission: 'canManageReservations'
+      },
+      {
+        text: 'Enviar Comunicados',
+        action: 'enviar-comunicados',
+        icon: '📢',
+        permission: 'canSendCommunications'
+      },
+      {
+        text: 'Prestação de Contas',
+        action: 'prestacao-contas',
+        icon: '💰',
+        permission: 'canViewReports'
+      },
       {
         text: 'Gerenciar Documentos',
         action: 'gerenciar-documentos',
-        icon: '📄'
+        icon: '📄',
+        permission: 'canManageSettings'
       },
-      { text: 'Iniciar Votação', action: 'iniciar-votacao', icon: '🗳️' }
+      {
+        text: 'Iniciar Votação',
+        action: 'iniciar-votacao',
+        icon: '🗳️',
+        permission: 'canCreateVotings'
+      },
+      {
+        text: 'Gerenciar Usuários',
+        action: 'gerenciar-usuarios',
+        icon: '👥',
+        permission: 'canManageUsers'
+      },
+      {
+        text: 'Relatórios',
+        action: 'relatorios',
+        icon: '📊',
+        permission: 'canViewReports'
+      },
+      {
+        text: 'Configurações',
+        action: 'configuracoes',
+        icon: '⚙️',
+        permission: 'canManageSettings'
+      }
     ]
+
+    // Filter buttons based on permissions
+    for (const button of sindicoButtons) {
+      const hasPermission = await checkUserPermission(button.permission)
+      if (hasPermission) {
+        buttons.push(button)
+      }
+    }
   } else {
-    // Buttons for Morador
+    // Buttons for Morador (limited permissions)
     buttons = [
       { text: 'Fazer Reserva', action: 'fazer-reserva', icon: '📅' },
       { text: 'Ver Comunicados', action: 'ver-comunicados', icon: '📢' },
-      { text: 'Consultar Votações', action: 'consultar-votacoes', icon: '🗳️' }
+      { text: 'Consultar Votações', action: 'consultar-votacoes', icon: '🗳️' },
+      { text: 'Minhas Reservas', action: 'minhas-reservas', icon: '📋' },
+      { text: 'Ver Lembretes', action: 'ver-lembretes', icon: '⏰' }
     ]
   }
 
@@ -125,6 +182,15 @@ function handleMenuAction(action) {
     case 'gerenciar-documentos':
       alert('Funcionalidade em desenvolvimento: Gerenciar Documentos')
       break
+    case 'gerenciar-usuarios':
+      alert('Funcionalidade em desenvolvimento: Gerenciar Usuários')
+      break
+    case 'relatorios':
+      alert('Funcionalidade em desenvolvimento: Relatórios')
+      break
+    case 'configuracoes':
+      alert('Funcionalidade em desenvolvimento: Configurações')
+      break
     case 'iniciar-votacao':
       window.location.href = '/votacoes.html'
       break
@@ -138,6 +204,12 @@ function handleMenuAction(action) {
       break
     case 'consultar-votacoes':
       window.location.href = '/votacoes.html'
+      break
+    case 'minhas-reservas':
+      window.location.href = '/minhas-reservas.html'
+      break
+    case 'ver-lembretes':
+      window.location.href = '/lembretes.html'
       break
 
     default:

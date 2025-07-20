@@ -1,6 +1,11 @@
 // Gerenciar Reservas Script
 import { getUserData } from './modules/userRole.js'
 import { auth, db } from './modules/firebase-config.js'
+import {
+  checkUserPermission,
+  requirePermission,
+  showAccessDenied
+} from './modules/permissions.js'
 import { formatarData, getLocalDisplayName } from './modules/reservas.js'
 
 // DOM Elements
@@ -30,9 +35,10 @@ async function initGerenciarReservas() {
       return
     }
 
-    // Check if user is síndico
-    if (userData.papel !== 'sindico') {
-      alert('Acesso negado. Apenas síndicos podem gerenciar reservas.')
+    // Check if user has permission to manage reservations
+    const canManage = await checkUserPermission('canManageReservations')
+    if (!canManage) {
+      showAccessDenied('Apenas síndicos podem gerenciar reservas.')
       window.location.href = '/dashboard.html'
       return
     }
@@ -197,6 +203,15 @@ function filterReservations() {
 
 // Approve reservation
 window.approveReservation = async function (reservaId) {
+  // Check permission
+  const canApprove = await requirePermission(
+    'canApproveReservations',
+    () => true,
+    'Você não tem permissão para aprovar reservas.'
+  )
+
+  if (!canApprove) return
+
   try {
     if (!confirm('Confirmar aprovação desta reserva?')) return
 
@@ -216,6 +231,15 @@ window.approveReservation = async function (reservaId) {
 
 // Reject reservation
 window.rejectReservation = async function (reservaId) {
+  // Check permission
+  const canReject = await requirePermission(
+    'canRejectReservations',
+    () => true,
+    'Você não tem permissão para rejeitar reservas.'
+  )
+
+  if (!canReject) return
+
   try {
     const motivo = prompt('Motivo da rejeição:')
     if (!motivo) return

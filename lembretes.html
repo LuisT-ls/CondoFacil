@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Votações - CondoFácil</title>
+    <title>Lembretes - CondoFácil</title>
     <meta
       name="description"
-      content="Sistema de votações do CondoFácil - Sistema de Gestão de Condomínios"
+      content="Sistema de lembretes do CondoFácil - Sistema de Gestão de Condomínios"
     />
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/votacoes.css" />
+    <link rel="stylesheet" href="assets/css/lembretes.css" />
 
     <!-- Favicon -->
     <link
@@ -64,29 +64,29 @@
 
     <!-- Main Content -->
     <main class="main">
-      <section class="votacoes-section">
+      <section class="lembretes-section">
         <div class="container">
-          <div class="votacoes-container">
+          <div class="lembretes-container">
             <!-- Page Header -->
             <div class="page-header">
-              <h1 class="page-title">Votações</h1>
+              <h1 class="page-title">Lembretes</h1>
               <p class="page-description">
-                Participe das votações e acompanhe os resultados
+                Acompanhe os lembretes e avisos importantes do condomínio
               </p>
             </div>
 
-            <!-- Create Voting Form (Síndico only) -->
+            <!-- Create Reminder Form (Síndico only) -->
             <div
               id="form-container"
               class="form-container"
               style="display: none"
-              data-requires-permission="canCreateVotings"
+              data-requires-permission="canCreateReminders"
             >
-              <h2 class="section-title">Criar Nova Votação</h2>
-              <form id="votacao-form" class="votacao-form" novalidate>
+              <h2 class="section-title">Criar Novo Lembrete</h2>
+              <form id="lembrete-form" class="lembrete-form" novalidate>
                 <div class="form-group">
                   <label for="titulo" class="form-label">
-                    Título da Votação
+                    Título do Lembrete
                     <span class="required" aria-label="campo obrigatório"
                       >*</span
                     >
@@ -96,7 +96,7 @@
                     id="titulo"
                     name="titulo"
                     class="form-input"
-                    placeholder="Ex: Aprovação de reforma da piscina"
+                    placeholder="Ex: Manutenção do elevador"
                     required
                     aria-describedby="titulo-error"
                   />
@@ -119,7 +119,7 @@
                     id="descricao"
                     name="descricao"
                     class="form-textarea"
-                    placeholder="Descreva detalhadamente a proposta..."
+                    placeholder="Detalhes do lembrete..."
                     required
                     rows="4"
                     aria-describedby="descricao-error"
@@ -133,22 +133,22 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="data-fim" class="form-label">
-                    Data de Encerramento
+                  <label for="data-lembrete" class="form-label">
+                    Data do Lembrete
                     <span class="required" aria-label="campo obrigatório"
                       >*</span
                     >
                   </label>
                   <input
                     type="datetime-local"
-                    id="data-fim"
-                    name="data-fim"
+                    id="data-lembrete"
+                    name="data-lembrete"
                     class="form-input"
                     required
-                    aria-describedby="data-fim-error"
+                    aria-describedby="data-lembrete-error"
                   />
                   <div
-                    id="data-fim-error"
+                    id="data-lembrete-error"
                     class="error-message"
                     role="alert"
                     aria-live="polite"
@@ -157,7 +157,7 @@
 
                 <div class="form-group">
                   <label for="tipo" class="form-label">
-                    Tipo de Votação
+                    Tipo
                     <span class="required" aria-label="campo obrigatório"
                       >*</span
                     >
@@ -170,8 +170,11 @@
                     aria-describedby="tipo-error"
                   >
                     <option value="" disabled selected>Selecione o tipo</option>
-                    <option value="sim-nao">Sim/Não</option>
-                    <option value="multipla-escolha">Múltipla Escolha</option>
+                    <option value="manutencao">Manutenção</option>
+                    <option value="seguranca">Segurança</option>
+                    <option value="evento">Evento</option>
+                    <option value="pagamento">Pagamento</option>
+                    <option value="geral">Geral</option>
                   </select>
                   <div
                     id="tipo-error"
@@ -181,41 +184,39 @@
                   ></div>
                 </div>
 
-                <div
-                  id="opcoes-container"
-                  class="opcoes-container"
-                  style="display: none"
-                >
-                  <label class="form-label">Opções de Votação</label>
-                  <div id="opcoes-list" class="opcoes-list">
-                    <div class="opcao-item">
-                      <input
-                        type="text"
-                        class="form-input opcao-input"
-                        placeholder="Opção 1"
-                        required
-                      />
-                      <button
-                        type="button"
-                        class="btn-remove-opcao"
-                        onclick="removeOpcao(this)"
-                      >
-                        ❌
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    class="btn-add-opcao"
-                    onclick="addOpcao()"
+                <div class="form-group">
+                  <label for="prioridade" class="form-label">
+                    Prioridade
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <select
+                    id="prioridade"
+                    name="prioridade"
+                    class="form-select"
+                    required
+                    aria-describedby="prioridade-error"
                   >
-                    ➕ Adicionar Opção
-                  </button>
+                    <option value="" disabled selected>
+                      Selecione a prioridade
+                    </option>
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                    <option value="urgente">Urgente</option>
+                  </select>
+                  <div
+                    id="prioridade-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
                 </div>
 
                 <div class="form-group">
                   <button type="submit" class="btn btn--primary" id="btn-criar">
-                    <span class="btn-text">Criar Votação</span>
+                    <span class="btn-text">Criar Lembrete</span>
                     <span class="btn-loading" style="display: none">
                       <span class="spinner"></span>
                       Criando...
@@ -225,26 +226,26 @@
               </form>
             </div>
 
-            <!-- Active Votings -->
-            <div class="active-votings-container">
-              <h2 class="section-title">Votações Ativas</h2>
-              <section id="lista-votacoes-ativas" class="lista-votacoes">
-                <!-- Votações ativas serão carregadas dinamicamente -->
+            <!-- Active Reminders -->
+            <div class="active-reminders-container">
+              <h2 class="section-title">Lembretes Ativos</h2>
+              <section id="lista-lembretes-ativos" class="lista-lembretes">
+                <!-- Lembretes ativos serão carregados dinamicamente -->
                 <div class="loading-message">
                   <span class="spinner"></span>
-                  Carregando votações...
+                  Carregando lembretes...
                 </div>
               </section>
             </div>
 
-            <!-- Past Votings -->
-            <div class="past-votings-container">
-              <h2 class="section-title">Votações Encerradas</h2>
-              <section id="lista-votacoes-encerradas" class="lista-votacoes">
-                <!-- Votações encerradas serão carregadas dinamicamente -->
+            <!-- Past Reminders -->
+            <div class="past-reminders-container">
+              <h2 class="section-title">Lembretes Passados</h2>
+              <section id="lista-lembretes-passados" class="lista-lembretes">
+                <!-- Lembretes passados serão carregados dinamicamente -->
                 <div class="loading-message">
                   <span class="spinner"></span>
-                  Carregando resultados...
+                  Carregando histórico...
                 </div>
               </section>
             </div>
@@ -261,6 +262,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script type="module" src="js/votacoes.js"></script>
+    <script type="module" src="js/lembretes.js"></script>
   </body>
 </html>

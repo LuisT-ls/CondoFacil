@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gerenciar Reservas - CondoFácil</title>
+    <title>Minhas Reservas - CondoFácil</title>
     <meta
       name="description"
-      content="Gerenciamento de reservas do CondoFácil - Sistema de Gestão de Condomínios"
+      content="Minhas reservas do CondoFácil - Sistema de Gestão de Condomínios"
     />
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/gerenciar-reservas.css" />
+    <link rel="stylesheet" href="assets/css/minhas-reservas.css" />
 
     <!-- Favicon -->
     <link
@@ -64,14 +64,14 @@
 
     <!-- Main Content -->
     <main class="main">
-      <section class="gerenciar-reservas-section">
+      <section class="minhas-reservas-section">
         <div class="container">
-          <div class="gerenciar-reservas-container">
+          <div class="minhas-reservas-container">
             <!-- Page Header -->
             <div class="page-header">
-              <h1 class="page-title">Gerenciar Reservas</h1>
+              <h1 class="page-title">Minhas Reservas</h1>
               <p class="page-description">
-                Aprove, rejeite ou visualize todas as reservas do condomínio
+                Acompanhe o status das suas reservas de áreas comuns
               </p>
             </div>
 
@@ -100,24 +100,9 @@
               </div>
             </div>
 
-            <!-- Reservations List -->
-            <div class="reservations-container">
-              <h2 class="section-title">Lista de Reservas</h2>
-              <section id="lista-reservas-admin" class="lista-reservas-admin">
-                <!-- Reservas serão carregadas dinamicamente via JavaScript -->
-                <div class="loading-message">
-                  <span class="spinner"></span>
-                  Carregando reservas...
-                </div>
-              </section>
-            </div>
-
             <!-- Statistics -->
-            <div
-              class="statistics-container"
-              data-requires-permission="canViewAllReservations"
-            >
-              <h2 class="section-title">Estatísticas</h2>
+            <div class="statistics-container">
+              <h2 class="section-title">Resumo das Minhas Reservas</h2>
               <div class="stats-grid">
                 <div class="stat-card">
                   <span class="stat-number" id="total-reservas">0</span>
@@ -137,6 +122,18 @@
                 </div>
               </div>
             </div>
+
+            <!-- Reservations List -->
+            <div class="reservations-container">
+              <h2 class="section-title">Lista de Reservas</h2>
+              <section id="lista-minhas-reservas" class="lista-minhas-reservas">
+                <!-- Reservas serão carregadas dinamicamente via JavaScript -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando suas reservas...
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </section>
@@ -150,6 +147,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script type="module" src="js/gerenciar-reservas.js"></script>
+    <script type="module" src="js/minhas-reservas.js"></script>
   </body>
 </html>

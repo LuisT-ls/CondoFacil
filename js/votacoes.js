@@ -1,6 +1,11 @@
 // Votações Script
 import { getUserData } from './modules/userRole.js'
 import { auth, db } from './modules/firebase-config.js'
+import {
+  checkUserPermission,
+  requirePermission,
+  showAccessDenied
+} from './modules/permissions.js'
 
 // DOM Elements
 const formContainer = document.getElementById('form-container')
@@ -36,8 +41,9 @@ async function initVotacoes() {
     currentUser = userData
     console.log('✅ Usuário carregado:', userData.nome)
 
-    // Show form for síndico only
-    if (userData.papel === 'sindico') {
+    // Show form for síndico only with permission check
+    const canCreateVotings = await checkUserPermission('canCreateVotings')
+    if (canCreateVotings) {
       formContainer.style.display = 'block'
     }
 
@@ -360,6 +366,15 @@ function hasVoted(votacaoId) {
 // Handle form submission
 async function handleSubmit(event) {
   event.preventDefault()
+
+  // Check permission before allowing form submission
+  const canCreate = await requirePermission(
+    'canCreateVotings',
+    () => true,
+    'Apenas síndicos podem criar votações.'
+  )
+
+  if (!canCreate) return
 
   try {
     // Get form data

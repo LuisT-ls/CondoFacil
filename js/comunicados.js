@@ -1,6 +1,11 @@
 // Comunicados Script
 import { getUserData } from './modules/userRole.js'
 import { auth, db } from './modules/firebase-config.js'
+import {
+  checkUserPermission,
+  requirePermission,
+  showAccessDenied
+} from './modules/permissions.js'
 
 // DOM Elements
 const formContainer = document.getElementById('form-container')
@@ -28,8 +33,11 @@ async function initComunicados() {
     currentUser = userData
     console.log('✅ Usuário carregado:', userData.nome)
 
-    // Show form for síndico only
-    if (userData.papel === 'sindico') {
+    // Show form for síndico only with permission check
+    const canSendCommunications = await checkUserPermission(
+      'canSendCommunications'
+    )
+    if (canSendCommunications) {
       formContainer.style.display = 'block'
     }
 
@@ -143,6 +151,15 @@ function setupForm() {
 async function handleSubmit(event) {
   event.preventDefault()
 
+  // Check permission before allowing form submission
+  const canSend = await requirePermission(
+    'canSendCommunications',
+    () => true,
+    'Apenas síndicos podem enviar comunicados.'
+  )
+
+  if (!canSend) return
+
   try {
     // Get form data
     const formData = new FormData(comunicadoForm)
@@ -239,6 +256,15 @@ window.viewComunicado = function (comunicadoId) {
 
 // Delete communication
 window.deleteComunicado = async function (comunicadoId) {
+  // Check permission
+  const canDelete = await requirePermission(
+    'canDeleteCommunications',
+    () => true,
+    'Você não tem permissão para excluir comunicados.'
+  )
+
+  if (!canDelete) return
+
   try {
     if (!confirm('Tem certeza que deseja excluir este comunicado?')) return
 
