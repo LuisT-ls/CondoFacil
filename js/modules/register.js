@@ -1,13 +1,4 @@
 // Módulo de Registro de Usuários
-import {
-  createUserWithEmailAndPassword,
-  updateProfile
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
-import {
-  doc,
-  setDoc,
-  getDoc
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
 import { auth, db } from './firebase-config.js'
 
 /**
@@ -23,8 +14,7 @@ export async function registerUser(nome, email, senha, papel) {
     console.log('🚀 Iniciando registro de usuário:', { nome, email, papel })
 
     // 1. Criar usuário no Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
+    const userCredential = await auth.createUserWithEmailAndPassword(
       email,
       senha
     )
@@ -33,7 +23,7 @@ export async function registerUser(nome, email, senha, papel) {
     console.log('✅ Usuário criado no Firebase Auth:', user.uid)
 
     // 2. Atualizar perfil do usuário com o nome
-    await updateProfile(user, {
+    await user.updateProfile({
       displayName: nome
     })
 
@@ -51,7 +41,7 @@ export async function registerUser(nome, email, senha, papel) {
     }
 
     // Usar setDoc para criar o documento com o UID do usuário como ID
-    await setDoc(doc(db, 'usuarios', user.uid), userData)
+    await db.collection('usuarios').doc(user.uid).set(userData)
 
     console.log('✅ Dados do usuário salvos no Firestore')
 
@@ -118,7 +108,7 @@ export async function registerGoogleUser(user, papel) {
       uid: user.uid
     }
 
-    await setDoc(doc(db, 'usuarios', user.uid), userData)
+    await db.collection('usuarios').doc(user.uid).set(userData)
 
     console.log('✅ Dados do usuário Google salvos no Firestore')
 
@@ -178,8 +168,7 @@ export async function checkEmailExists(email) {
   try {
     // Tentar criar um usuário temporário para verificar se o email existe
     // Esta é uma abordagem alternativa, pois o Firebase não fornece uma API direta para verificar emails
-    const tempUser = await createUserWithEmailAndPassword(
-      auth,
+    const tempUser = await auth.createUserWithEmailAndPassword(
       email,
       'tempPassword123!'
     )
@@ -239,9 +228,9 @@ export function validateRegistrationData(formData) {
  */
 export async function getUserData(uid) {
   try {
-    const userDoc = await getDoc(doc(db, 'usuarios', uid))
+    const userDoc = await db.collection('usuarios').doc(uid).get()
 
-    if (userDoc.exists()) {
+    if (userDoc.exists) {
       return {
         id: userDoc.id,
         ...userDoc.data()

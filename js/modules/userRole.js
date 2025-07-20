@@ -1,10 +1,5 @@
 // User Role Management Module
 import { auth, db } from './firebase-config.js'
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
-import {
-  doc,
-  getDoc
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
 
 /**
  * Gets user data from Firestore based on authentication state
@@ -12,13 +7,13 @@ import {
  */
 export async function getUserData() {
   return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, async user => {
+    auth.onAuthStateChanged(async user => {
       if (user) {
         try {
           // User is signed in, get data from Firestore
-          const userDoc = await getDoc(doc(db, 'usuarios', user.uid))
+          const userDoc = await db.collection('usuarios').doc(user.uid).get()
 
-          if (userDoc.exists()) {
+          if (userDoc.exists) {
             const userData = userDoc.data()
 
             // Return user data object
@@ -80,7 +75,7 @@ export function getCurrentUserData() {
  */
 export function isAuthenticated() {
   return new Promise(resolve => {
-    onAuthStateChanged(auth, user => {
+    auth.onAuthStateChanged(user => {
       resolve(!!user)
     })
   })
@@ -93,9 +88,9 @@ export function isAuthenticated() {
  */
 export async function getUserRole(uid) {
   try {
-    const userDoc = await getDoc(doc(db, 'usuarios', uid))
+    const userDoc = await db.collection('usuarios').doc(uid).get()
 
-    if (userDoc.exists()) {
+    if (userDoc.exists) {
       const userData = userDoc.data()
       return userData.papel || 'morador'
     }

@@ -1,8 +1,5 @@
 // Firebase Configuração
-import firebase from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
-import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
-import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
-import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js'
+// Importar Firebase usando script tags no HTML, aqui apenas configurar
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBKvc5DXCuHMjgc8VHR1L4GB9pMSldwOaM',

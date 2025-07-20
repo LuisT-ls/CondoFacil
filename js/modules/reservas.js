@@ -1,15 +1,5 @@
 // Reservas Management Module
 import { db } from './firebase-config.js'
-import {
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  doc,
-  getDoc
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
 
 /**
  * Creates a new reservation in Firestore
@@ -27,10 +17,10 @@ export async function criarReserva(
 ) {
   try {
     // Check if condominium exists
-    const condominioRef = doc(db, 'condominios', condominioId)
-    const condominioDoc = await getDoc(condominioRef)
+    const condominioRef = db.collection('condominios').doc(condominioId)
+    const condominioDoc = await condominioRef.get()
 
-    if (!condominioDoc.exists()) {
+    if (!condominioDoc.exists) {
       throw new Error('Condomínio não encontrado')
     }
 
@@ -44,8 +34,11 @@ export async function criarReserva(
       dataAtualizacao: new Date().toISOString()
     }
 
-    const reservasRef = collection(db, 'condominios', condominioId, 'reservas')
-    const docRef = await addDoc(reservasRef, reservaData)
+    const reservasRef = db
+      .collection('condominios')
+      .doc(condominioId)
+      .collection('reservas')
+    const docRef = await reservasRef.add(reservaData)
 
     console.log('✅ Reserva criada com sucesso:', docRef.id)
     return docRef.id
@@ -63,20 +56,21 @@ export async function criarReserva(
 export async function listarReservas(condominioId) {
   try {
     // Check if condominium exists
-    const condominioRef = doc(db, 'condominios', condominioId)
-    const condominioDoc = await getDoc(condominioRef)
+    const condominioRef = db.collection('condominios').doc(condominioId)
+    const condominioDoc = await condominioRef.get()
 
-    if (!condominioDoc.exists()) {
+    if (!condominioDoc.exists) {
       throw new Error('Condomínio não encontrado')
     }
 
     // Get reservations collection
-    const reservasRef = collection(db, 'condominios', condominioId, 'reservas')
+    const reservasRef = db
+      .collection('condominios')
+      .doc(condominioId)
+      .collection('reservas')
 
     // Create query to order by date
-    const q = query(reservasRef, orderBy('dataCompleta', 'asc'))
-
-    const querySnapshot = await getDocs(q)
+    const querySnapshot = await reservasRef.orderBy('dataCompleta', 'asc').get()
     const reservas = []
 
     querySnapshot.forEach(doc => {
@@ -103,24 +97,24 @@ export async function listarReservas(condominioId) {
 export async function listarReservasUsuario(condominioId, usuarioId) {
   try {
     // Check if condominium exists
-    const condominioRef = doc(db, 'condominios', condominioId)
-    const condominioDoc = await getDoc(condominioRef)
+    const condominioRef = db.collection('condominios').doc(condominioId)
+    const condominioDoc = await condominioRef.get()
 
-    if (!condominioDoc.exists()) {
+    if (!condominioDoc.exists) {
       throw new Error('Condomínio não encontrado')
     }
 
     // Get reservations collection
-    const reservasRef = collection(db, 'condominios', condominioId, 'reservas')
+    const reservasRef = db
+      .collection('condominios')
+      .doc(condominioId)
+      .collection('reservas')
 
     // Create query to filter by user and order by date
-    const q = query(
-      reservasRef,
-      where('usuarioId', '==', usuarioId),
-      orderBy('dataCompleta', 'asc')
-    )
-
-    const querySnapshot = await getDocs(q)
+    const querySnapshot = await reservasRef
+      .where('usuarioId', '==', usuarioId)
+      .orderBy('dataCompleta', 'asc')
+      .get()
     const reservas = []
 
     querySnapshot.forEach(doc => {
@@ -154,25 +148,25 @@ export async function verificarConflito(
 ) {
   try {
     // Check if condominium exists
-    const condominioRef = doc(db, 'condominios', condominioId)
-    const condominioDoc = await getDoc(condominioRef)
+    const condominioRef = db.collection('condominios').doc(condominioId)
+    const condominioDoc = await condominioRef.get()
 
-    if (!condominioDoc.exists()) {
+    if (!condominioDoc.exists) {
       throw new Error('Condomínio não encontrado')
     }
 
     // Get reservations collection
-    const reservasRef = collection(db, 'condominios', condominioId, 'reservas')
+    const reservasRef = db
+      .collection('condominios')
+      .doc(condominioId)
+      .collection('reservas')
 
     // Create query to check for conflicts
-    const q = query(
-      reservasRef,
-      where('local', '==', local),
-      where('dataCompleta', '==', dataCompleta),
-      where('status', 'in', ['pendente', 'aprovada'])
-    )
-
-    const querySnapshot = await getDocs(q)
+    const querySnapshot = await reservasRef
+      .where('local', '==', local)
+      .where('dataCompleta', '==', dataCompleta)
+      .where('status', 'in', ['pendente', 'aprovada'])
+      .get()
     let conflito = false
 
     querySnapshot.forEach(doc => {
@@ -211,16 +205,14 @@ export async function verificarConflito(
  */
 export async function obterReserva(condominioId, reservaId) {
   try {
-    const reservaRef = doc(
-      db,
-      'condominios',
-      condominioId,
-      'reservas',
-      reservaId
-    )
-    const reservaDoc = await getDoc(reservaRef)
+    const reservaRef = db
+      .collection('condominios')
+      .doc(condominioId)
+      .collection('reservas')
+      .doc(reservaId)
+    const reservaDoc = await reservaRef.get()
 
-    if (reservaDoc.exists()) {
+    if (reservaDoc.exists) {
       return {
         id: reservaDoc.id,
         ...reservaDoc.data()

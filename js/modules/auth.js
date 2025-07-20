@@ -1,14 +1,4 @@
 // Módulo de Autenticação
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
 import { auth } from './firebase-config.js'
 
 class AuthService {
@@ -20,7 +10,7 @@ class AuthService {
 
   // Inicializar listener de estado de autenticação
   init() {
-    onAuthStateChanged(auth, user => {
+    auth.onAuthStateChanged(user => {
       this.currentUser = user
       this.notifyAuthStateChange(user)
 
@@ -37,8 +27,7 @@ class AuthService {
   // Login com email e senha
   async login(email, password) {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
+      const userCredential = await auth.signInWithEmailAndPassword(
         email,
         password
       )
@@ -53,8 +42,8 @@ class AuthService {
   // Login com Google
   async loginWithGoogle() {
     try {
-      const provider = new GoogleAuthProvider()
-      const userCredential = await signInWithPopup(auth, provider)
+      const provider = new firebase.auth.GoogleAuthProvider()
+      const userCredential = await auth.signInWithPopup(provider)
       console.log('🎉 Login com Google realizado com sucesso!')
       return { success: true, user: userCredential.user }
     } catch (error) {
@@ -66,15 +55,14 @@ class AuthService {
   // Registro de novo usuário
   async register(email, password, displayName) {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      const userCredential = await auth.createUserWithEmailAndPassword(
         email,
         password
       )
 
       // Atualizar perfil com nome
       if (displayName) {
-        await updateProfile(userCredential.user, { displayName })
+        await userCredential.user.updateProfile({ displayName })
       }
 
       console.log('🎉 Usuário registrado com sucesso!')
@@ -88,7 +76,7 @@ class AuthService {
   // Logout
   async logout() {
     try {
-      await signOut(auth)
+      await auth.signOut()
       console.log('👋 Logout realizado com sucesso!')
       return { success: true }
     } catch (error) {
@@ -100,7 +88,7 @@ class AuthService {
   // Recuperar senha
   async resetPassword(email) {
     try {
-      await sendPasswordResetEmail(auth, email)
+      await auth.sendPasswordResetEmail(email)
       console.log('📧 Email de recuperação enviado!')
       return { success: true }
     } catch (error) {
