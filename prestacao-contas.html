@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prestação de Contas - CondoFácil</title>
+    <meta
+      name="description"
+      content="Prestação de contas do condomínio - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/prestacao-contas.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="prestacao-section">
+        <div class="container">
+          <div class="prestacao-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Prestação de Contas</h1>
+              <p class="page-description">
+                Gerencie e apresente as contas do condomínio
+              </p>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="actions-bar">
+              <div class="filter-group">
+                <label for="periodo-contas" class="filter-label">Período</label>
+                <select id="periodo-contas" class="filter-select">
+                  <option value="mes-atual">Mês Atual</option>
+                  <option value="mes-anterior">Mês Anterior</option>
+                  <option value="trimestre">Último Trimestre</option>
+                  <option value="semestre">Último Semestre</option>
+                  <option value="ano">Último Ano</option>
+                  <option value="custom">Período Personalizado</option>
+                </select>
+              </div>
+
+              <div
+                class="filter-group"
+                id="custom-period"
+                style="display: none"
+              >
+                <label for="data-inicio-contas" class="filter-label"
+                  >Data Início</label
+                >
+                <input
+                  type="date"
+                  id="data-inicio-contas"
+                  class="filter-input"
+                />
+              </div>
+
+              <div
+                class="filter-group"
+                id="custom-period-end"
+                style="display: none"
+              >
+                <label for="data-fim-contas" class="filter-label"
+                  >Data Fim</label
+                >
+                <input type="date" id="data-fim-contas" class="filter-input" />
+              </div>
+
+              <button id="btn-gerar-prestacao" class="btn btn--primary">
+                📊 Gerar Prestação
+              </button>
+
+              <button id="btn-nova-conta" class="btn btn--success">
+                ➕ Nova Conta
+              </button>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="financial-summary">
+              <div class="summary-card">
+                <div class="card-icon">💰</div>
+                <div class="card-content">
+                  <h3>Receitas</h3>
+                  <p id="total-receitas">R$ 0,00</p>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="card-icon">💸</div>
+                <div class="card-content">
+                  <h3>Despesas</h3>
+                  <p id="total-despesas">R$ 0,00</p>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="card-icon">📈</div>
+                <div class="card-content">
+                  <h3>Saldo</h3>
+                  <p id="saldo-atual">R$ 0,00</p>
+                </div>
+              </div>
+
+              <div class="summary-card">
+                <div class="card-icon">👥</div>
+                <div class="card-content">
+                  <h3>Unidades</h3>
+                  <p id="total-unidades">0</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+              <div class="chart-container">
+                <h3>Receitas vs Despesas</h3>
+                <canvas id="chart-receitas-despesas"></canvas>
+              </div>
+
+              <div class="chart-container">
+                <h3>Despesas por Categoria</h3>
+                <canvas id="chart-despesas-categoria"></canvas>
+              </div>
+            </div>
+
+            <!-- Accounts Tabs -->
+            <div class="accounts-section">
+              <div class="accounts-tabs">
+                <button class="account-tab active" data-account="receitas">
+                  💰 Receitas
+                </button>
+                <button class="account-tab" data-account="despesas">
+                  💸 Despesas
+                </button>
+                <button class="account-tab" data-account="resumo">
+                  📋 Resumo
+                </button>
+                <button class="account-tab" data-account="relatorios">
+                  📊 Relatórios
+                </button>
+              </div>
+
+              <!-- Receitas Content -->
+              <div id="receitas" class="account-content active">
+                <div class="content-header">
+                  <h3>Receitas do Período</h3>
+                  <button id="export-receitas" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="accounts-table">
+                    <thead>
+                      <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="receitas-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Despesas Content -->
+              <div id="despesas" class="account-content">
+                <div class="content-header">
+                  <h3>Despesas do Período</h3>
+                  <button id="export-despesas" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="accounts-table">
+                    <thead>
+                      <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="despesas-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Resumo Content -->
+              <div id="resumo" class="account-content">
+                <div class="content-header">
+                  <h3>Resumo Financeiro</h3>
+                  <button id="export-resumo" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="summary-content">
+                  <div class="summary-grid">
+                    <div class="summary-item">
+                      <h4>Receitas por Categoria</h4>
+                      <div id="receitas-categoria-summary">
+                        <!-- Will be populated by JavaScript -->
+                      </div>
+                    </div>
+                    <div class="summary-item">
+                      <h4>Despesas por Categoria</h4>
+                      <div id="despesas-categoria-summary">
+                        <!-- Will be populated by JavaScript -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="summary-item">
+                    <h4>Fluxo de Caixa</h4>
+                    <div id="fluxo-caixa-summary">
+                      <!-- Will be populated by JavaScript -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Relatórios Content -->
+              <div id="relatorios" class="account-content">
+                <div class="content-header">
+                  <h3>Relatórios Financeiros</h3>
+                  <button id="export-relatorios" class="btn btn--secondary">
+                    📤 Exportar Todos
+                  </button>
+                </div>
+                <div class="reports-grid">
+                  <div class="report-card">
+                    <h4>📊 Balanço Mensal</h4>
+                    <p>Resumo completo das receitas e despesas do mês</p>
+                    <button
+                      class="btn btn--info"
+                      onclick="gerarRelatorio('balanco-mensal')"
+                    >
+                      Gerar Relatório
+                    </button>
+                  </div>
+                  <div class="report-card">
+                    <h4>📈 Análise de Tendências</h4>
+                    <p>Análise dos gastos e receitas ao longo do tempo</p>
+                    <button
+                      class="btn btn--info"
+                      onclick="gerarRelatorio('tendencias')"
+                    >
+                      Gerar Relatório
+                    </button>
+                  </div>
+                  <div class="report-card">
+                    <h4>💰 Projeção Orçamentária</h4>
+                    <p>Projeção de receitas e despesas para próximos meses</p>
+                    <button
+                      class="btn btn--info"
+                      onclick="gerarRelatorio('projecao')"
+                    >
+                      Gerar Relatório
+                    </button>
+                  </div>
+                  <div class="report-card">
+                    <h4>📋 Demonstrativo de Resultados</h4>
+                    <p>Demonstrativo detalhado de receitas e despesas</p>
+                    <button
+                      class="btn btn--info"
+                      onclick="gerarRelatorio('demonstrativo')"
+                    >
+                      Gerar Relatório
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Add Account Modal -->
+    <div id="modal-nova-conta" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Nova Conta</h2>
+          <button class="modal-close" id="close-modal">&times;</button>
+        </div>
+
+        <form id="form-nova-conta" class="modal-form">
+          <div class="form-group">
+            <label for="tipo-conta" class="form-label">Tipo</label>
+            <select id="tipo-conta" name="tipo" class="form-select" required>
+              <option value="">Selecione o tipo</option>
+              <option value="receita">Receita</option>
+              <option value="despesa">Despesa</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="descricao-conta" class="form-label">Descrição</label>
+            <input
+              type="text"
+              id="descricao-conta"
+              name="descricao"
+              class="form-input"
+              placeholder="Descrição da conta"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="categoria-conta" class="form-label">Categoria</label>
+            <select
+              id="categoria-conta"
+              name="categoria"
+              class="form-select"
+              required
+            >
+              <option value="">Selecione a categoria</option>
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="valor-conta" class="form-label">Valor (R$)</label>
+            <input
+              type="number"
+              id="valor-conta"
+              name="valor"
+              class="form-input"
+              placeholder="0,00"
+              step="0.01"
+              min="0"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="data-conta" class="form-label">Data</label>
+            <input
+              type="date"
+              id="data-conta"
+              name="data"
+              class="form-input"
+              required
+            />
+          </div>
+
+          <div class="form-group" id="fornecedor-group" style="display: none">
+            <label for="fornecedor-conta" class="form-label">Fornecedor</label>
+            <input
+              type="text"
+              id="fornecedor-conta"
+              name="fornecedor"
+              class="form-input"
+              placeholder="Nome do fornecedor"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="observacoes-conta" class="form-label"
+              >Observações</label
+            >
+            <textarea
+              id="observacoes-conta"
+              name="observacoes"
+              class="form-textarea"
+              placeholder="Observações adicionais"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn--secondary"
+              id="cancelar-conta"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn--primary">
+              ✅ Salvar Conta
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Account Modal -->
+    <div id="modal-editar-conta" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Editar Conta</h2>
+          <button class="modal-close" id="close-edit-modal">&times;</button>
+        </div>
+
+        <form id="form-editar-conta" class="modal-form">
+          <input type="hidden" id="edit-conta-id" name="contaId" />
+
+          <div class="form-group">
+            <label for="edit-tipo-conta" class="form-label">Tipo</label>
+            <select
+              id="edit-tipo-conta"
+              name="tipo"
+              class="form-select"
+              required
+            >
+              <option value="">Selecione o tipo</option>
+              <option value="receita">Receita</option>
+              <option value="despesa">Despesa</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-descricao-conta" class="form-label"
+              >Descrição</label
+            >
+            <input
+              type="text"
+              id="edit-descricao-conta"
+              name="descricao"
+              class="form-input"
+              placeholder="Descrição da conta"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="edit-categoria-conta" class="form-label"
+              >Categoria</label
+            >
+            <select
+              id="edit-categoria-conta"
+              name="categoria"
+              class="form-select"
+              required
+            >
+              <option value="">Selecione a categoria</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-valor-conta" class="form-label">Valor (R$)</label>
+            <input
+              type="number"
+              id="edit-valor-conta"
+              name="valor"
+              class="form-input"
+              placeholder="0,00"
+              step="0.01"
+              min="0"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="edit-data-conta" class="form-label">Data</label>
+            <input
+              type="date"
+              id="edit-data-conta"
+              name="data"
+              class="form-input"
+              required
+            />
+          </div>
+
+          <div
+            class="form-group"
+            id="edit-fornecedor-group"
+            style="display: none"
+          >
+            <label for="edit-fornecedor-conta" class="form-label"
+              >Fornecedor</label
+            >
+            <input
+              type="text"
+              id="edit-fornecedor-conta"
+              name="fornecedor"
+              class="form-input"
+              placeholder="Nome do fornecedor"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="edit-observacoes-conta" class="form-label"
+              >Observações</label
+            >
+            <textarea
+              id="edit-observacoes-conta"
+              name="observacoes"
+              class="form-textarea"
+              placeholder="Observações adicionais"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn--secondary"
+              id="cancelar-editar-conta"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn--primary">
+              ✅ Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/prestacao-contas.js"></script>
+  </body>
+</html>

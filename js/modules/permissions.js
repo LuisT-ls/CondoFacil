@@ -35,7 +35,11 @@ const PERMISSIONS = {
 
     // Configurações
     canManageSettings: true,
-    canViewSystemSettings: true
+    canViewSystemSettings: true,
+
+    // Prestação de Contas
+    canManageAccounts: true,
+    canViewFinancialReports: true
   },
 
   morador: {

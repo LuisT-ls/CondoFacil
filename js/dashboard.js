@@ -177,7 +177,7 @@ function handleMenuAction(action) {
       window.location.href = '/comunicados.html'
       break
     case 'prestacao-contas':
-      alert('Funcionalidade em desenvolvimento: Prestação de Contas')
+      window.location.href = '/prestacao-contas.html'
       break
     case 'gerenciar-documentos':
       alert('Funcionalidade em desenvolvimento: Gerenciar Documentos')
