@@ -1,311 +1,242 @@
 # CondoFácil - Sistema de Gestão de Condomínios
 
-Uma aplicação moderna para gestão de condomínios desenvolvida com **Firebase**, oferecendo funcionalidades completas para administração de condomínios.
+Sistema completo de gestão de condomínios desenvolvido com Firebase, oferecendo funcionalidades modernas para síndicos e moradores.
 
 ## 🚀 Funcionalidades
 
-- **Gestão de Moradores**: Cadastro e controle de moradores
-- **Comunicações**: Sistema de avisos e notificações
-- **Reservas**: Agendamento de áreas comuns
-- **Financeiro**: Controle de taxas e despesas
-- **Autenticação**: Sistema seguro de login
-- **Tempo Real**: Dados sincronizados em tempo real
+### 👥 Gestão de Usuários
 
-## 🛠️ Tecnologias Utilizadas
+- Cadastro e login com Firebase Auth
+- Controle de acesso baseado em papéis (Síndico/Morador)
+- Sistema de permissões granulares
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Backend**: Firebase
-- **Autenticação**: Firebase Auth
-- **Banco de Dados**: Firestore
-- **Storage**: Firebase Storage
-- **Analytics**: Firebase Analytics
+### 📅 Reservas
+
+- Agendamento de áreas comuns
+- Aprovação/rejeição de reservas (Síndico)
+- Visualização de minhas reservas (Morador)
+- Detecção de conflitos
+
+### 🗳️ Votações
+
+- Criação de votações (Síndico)
+- Votação em tempo real
+- Resultados com gráficos
+- Tipos: Sim/Não e Múltipla Escolha
+
+### 📢 Comunicações
+
+- Envio de comunicados (Síndico)
+- Visualização de comunicados
+- Sistema de notificações
+
+### ⏰ Lembretes
+
+- Criação de lembretes (Síndico)
+- Visualização de lembretes
+- Prioridades e tipos
+
+## 🛠️ Tecnologias
+
+- **Frontend**: HTML5, CSS3, JavaScript ES6+
+- **Backend**: Firebase (Auth, Firestore, Storage)
+- **Deploy**: Vercel
+- **Autenticação**: Firebase Auth (Email/Password + Google)
 
 ## 📦 Instalação
 
 ### Pré-requisitos
 
-- Node.js (versão 14 ou superior)
-- NPM ou Yarn
+- Node.js 16+
+- Conta Firebase
 
-### Passos para Instalação
+### Passos
 
 1. **Clone o repositório**
 
-   ```bash
-   git clone [URL_DO_REPOSITORIO]
-   cd CondoFacil
-   ```
+```bash
+git clone https://github.com/seu-usuario/condofacil.git
+cd condofacil
+```
 
 2. **Instale as dependências**
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 3. **Configure o Firebase**
 
-   - O Firebase já está configurado com as credenciais fornecidas
-   - As configurações estão em `js/modules/firebase-config.js`
+   - Crie um projeto no Firebase Console
+   - Ative Authentication e Firestore
+   - Configure as regras de segurança
+   - Adicione o domínio autorizado
 
-4. **Inicie a aplicação**
-   ```bash
-   npm start
-   ```
-
-## 🎯 Como Usar
-
-### Desenvolvimento Local
+4. **Execute localmente**
 
 ```bash
-# Iniciar servidor de desenvolvimento
 npm run dev
-
-# Ou usar Python (se disponível)
-npm start
 ```
 
-### Estrutura do Projeto
+5. **Acesse**
 
 ```
-CondoFacil/
-├── assets/
-│   ├── css/
-│   │   └── main.css
-│   └── img/
-├── js/
-│   ├── main.js
-│   └── modules/
-│       └── firebase-config.js
-├── pages/
-├── index.html
-├── package.json
-└── README.md
+http://localhost:8080
 ```
-
-## 🔧 Configuração do Firebase
-
-A aplicação já está configurada com o Firebase. As configurações incluem:
-
-- **API Key**: `AIzaSyBKvc5DXCuHMjgc8VHR1L4GB9pMSldwOaM`
-- **Project ID**: `condofacil-bf0cd`
-- **Auth Domain**: `condofacil-bf0cd.firebaseapp.com`
-
-### Serviços Firebase Configurados
-
-- ✅ **Firebase App**: Aplicação principal
-- ✅ **Firebase Analytics**: Análise de uso
-- ✅ **Firebase Auth**: Autenticação de usuários
-- ✅ **Firestore**: Banco de dados em tempo real
-- ✅ **Firebase Storage**: Armazenamento de arquivos
-
-## 📱 Funcionalidades Implementadas
-
-### 1. Sistema de Autenticação
-
-- Login/Logout de usuários
-- Registro de novos usuários
-- Recuperação de senha
-
-### 2. Gestão de Moradores
-
-- Cadastro de moradores
-- Perfis de usuários
-- Controle de acesso
-
-### 3. Comunicações
-
-- Sistema de avisos
-- Notificações push
-- Chat interno
-
-### 4. Reservas
-
-- Agendamento de áreas comuns
-- Calendário de reservas
-- Confirmações automáticas
-
-## 🎨 Interface
-
-A aplicação possui uma interface moderna e responsiva com:
-
-- Design limpo e profissional
-- Cores consistentes com a marca
-- Animações suaves
-- Layout responsivo para mobile
-- Indicadores de status em tempo real
-
-## 🔒 Segurança
-
-- Autenticação segura com Firebase Auth
-- Regras de segurança no Firestore
-- Validação de dados no frontend
-- HTTPS obrigatório em produção
-
-## 📊 Analytics
-
-O Firebase Analytics está configurado para:
-
-- Rastrear uso da aplicação
-- Monitorar performance
-- Analisar comportamento dos usuários
-- Gerar relatórios automáticos
 
 ## 🚀 Deploy
 
-### Firebase Hosting
+### Vercel (Recomendado)
+
+1. **Conecte com Vercel**
 
 ```bash
-# Instalar Firebase CLI
-npm install -g firebase-tools
+npm i -g vercel
+vercel login
+```
 
-# Login no Firebase
+2. **Deploy**
+
+```bash
+vercel --prod
+```
+
+### Firebase Hosting
+
+1. **Instale Firebase CLI**
+
+```bash
+npm i -g firebase-tools
+```
+
+2. **Configure**
+
+```bash
 firebase login
-
-# Inicializar projeto
 firebase init hosting
+```
 
-# Deploy
+3. **Deploy**
+
+```bash
 firebase deploy
 ```
 
-### Outras Opções
+## 🔧 Configuração Firebase
 
-- **Netlify**: Conecte seu repositório GitHub
-- **Vercel**: Deploy automático
-- **GitHub Pages**: Para projetos estáticos
+### 1. Authentication
+
+- Email/Password habilitado
+- Google Sign-In habilitado
+- Domínios autorizados configurados
+
+### 2. Firestore
+
+```javascript
+// Regras de segurança básicas
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+### 3. Storage
+
+```javascript
+// Regras de segurança básicas
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+## 📁 Estrutura do Projeto
+
+```
+condofacil/
+├── assets/
+│   ├── css/
+│   │   ├── main.css
+│   │   └── modules/
+│   └── img/
+├── js/
+│   ├── modules/
+│   │   ├── firebase-config.js
+│   │   ├── auth.js
+│   │   ├── permissions.js
+│   │   └── ...
+│   ├── dashboard.js
+│   ├── votacoes.js
+│   └── ...
+├── pages/
+├── index.html
+├── login.html
+├── cadastro.html
+├── dashboard.html
+└── ...
+```
+
+## 🔐 Controle de Acesso
+
+### Síndico
+
+- ✅ Gerenciar reservas
+- ✅ Criar votações
+- ✅ Enviar comunicados
+- ✅ Criar lembretes
+- ✅ Visualizar relatórios
+
+### Morador
+
+- ✅ Fazer reservas
+- ✅ Votar em votações
+- ✅ Visualizar comunicados
+- ✅ Ver lembretes
+- ✅ Gerenciar reservas próprias
+
+## 🐛 Troubleshooting
+
+### Problemas Comuns
+
+1. **Erro de CORS**
+
+   - Configure domínios autorizados no Firebase
+   - Verifique as regras de segurança
+
+2. **Erro de Autenticação**
+
+   - Verifique se o Firebase Auth está habilitado
+   - Confirme as credenciais do projeto
+
+3. **Erro de Firestore**
+   - Verifique as regras de segurança
+   - Confirme se o Firestore está habilitado
+
+## 📄 Licença
+
+MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 🤝 Contribuição
 
-1. Faça um fork do projeto
+1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
 ## 📞 Suporte
 
-Para suporte, envie um email para [seu-email@exemplo.com] ou abra uma issue no GitHub.
-
-## 🔧 Módulos Principais
-
-### Autenticação e Registro
-
-- **`js/modules/auth.js`** - Sistema de autenticação completo
-- **`js/modules/register.js`** - Registro de usuários com Firebase Auth + Firestore
-- **`js/modules/database.js`** - Operações CRUD no Firestore
-- **`js/modules/firebase-config.js`** - Configuração do Firebase
-
-### Funcionalidades
-
-- **`js/cadastro.js`** - Gerenciamento do formulário de cadastro
-- **`js/login.js`** - Gerenciamento do formulário de login
-- **`js/dashboard.js`** - Dashboard principal da aplicação
-- **`js/main.js`** - Aplicação principal
-
-## 📝 API do Módulo de Registro
-
-### `registerUser(nome, email, senha, papel)`
-
-Registra um novo usuário no Firebase Auth e salva dados no Firestore.
-
-**Parâmetros:**
-
-- `nome` (string) - Nome completo do usuário
-- `email` (string) - Email do usuário
-- `senha` (string) - Senha do usuário (mínimo 6 caracteres)
-- `papel` (string) - Papel do usuário ('sindico' ou 'morador')
-
-**Retorna:**
-
-```javascript
-{
-  success: boolean,
-  user?: {
-    uid: string,
-    email: string,
-    displayName: string,
-    nome: string,
-    papel: string,
-    condominioId: null,
-    dataCadastro: Date,
-    status: string
-  },
-  error?: string
-}
-```
-
-**Exemplo de uso:**
-
-```javascript
-import { registerUser } from './js/modules/register.js'
-
-const resultado = await registerUser(
-  'João Silva',
-  'joao@exemplo.com',
-  'senha123456',
-  'sindico'
-)
-
-if (resultado.success) {
-  console.log('Usuário registrado:', resultado.user)
-} else {
-  console.error('Erro:', resultado.error)
-}
-```
-
-### Estrutura no Firestore
-
-```javascript
-{
-  nome: "João Silva",
-  email: "joao@exemplo.com",
-  papel: "sindico",
-  condominioId: null,
-  dataCadastro: Timestamp,
-  status: "ativo",
-  uid: "firebase-auth-uid"
-}
-```
-
-## 🔄 Fluxo de Autenticação
-
-### Cadastro
-
-1. Usuário preenche formulário em `/cadastro.html`
-2. Dados são validados no frontend
-3. Usuário é criado no Firebase Auth
-4. Dados adicionais são salvos no Firestore
-5. **Redirecionamento:** `/dashboard.html`
-
-### Login
-
-1. Usuário preenche formulário em `/login.html`
-2. Credenciais são validadas no Firebase Auth
-3. **Redirecionamento:** `/dashboard.html`
-
-### Dashboard
-
-- **Acesso protegido:** Usuário deve estar autenticado
-- **Redirecionamento automático:** Para `/login.html` se não autenticado
-- **Logout:** Redireciona para `/index.html`
-
-### Tratamento de Erros
-
-- **Sucesso:** Redirecionamento automático para dashboard
-- **Erro:** `alert()` com mensagem específica + notificação visual
-
-## 🎯 Roadmap
-
-- [ ] Sistema de pagamentos
-- [ ] App mobile (React Native)
-- [ ] Integração com WhatsApp
-- [ ] Relatórios avançados
-- [ ] Módulo de manutenção
+- **Email**: suporte@condofacil.com
+- **Issues**: [GitHub Issues](https://github.com/seu-usuario/condofacil/issues)
 
 ---
 
-**CondoFácil** - Simplificando a gestão de condomínios com tecnologia moderna! 🏢✨
+Desenvolvido com ❤️ usando Firebase e Vercel
