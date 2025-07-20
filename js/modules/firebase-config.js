@@ -1,8 +1,8 @@
 // Firebase Configuração
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
-import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
-import { getStorage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js'
+import firebase from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
+import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
+import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
+import 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBKvc5DXCuHMjgc8VHR1L4GB9pMSldwOaM',
@@ -15,12 +15,12 @@ const firebaseConfig = {
 }
 
 // Inicializar Firebase
-const app = initializeApp(firebaseConfig)
+const app = firebase.initializeApp(firebaseConfig)
 
 // Inicializar serviços
-const auth = getAuth(app)
-const db = getFirestore(app)
-const storage = getStorage(app)
+const auth = firebase.auth()
+const db = firebase.firestore()
+const storage = firebase.storage()
 
 // Exportar instâncias
 export { app, auth, db, storage }
