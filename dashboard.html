@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CondoFácil</title>
+    <meta
+      name="description"
+      content="Dashboard do CondoFácil - Gestão de Condomínios"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+
+    <!-- Firebase SDK -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Dashboard</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="#dashboard">Dashboard</a></li>
+              <li><a href="#moradores">Moradores</a></li>
+              <li><a href="#comunicacoes">Comunicações</a></li>
+              <li><a href="#reservas">Reservas</a></li>
+              <li><a href="#configuracoes">Configurações</a></li>
+              <li id="auth-section">
+                <button onclick="logout()" class="btn-logout">Sair</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="dashboard-section">
+        <div class="container">
+          <div class="dashboard-header">
+            <h2>Bem-vindo ao CondoFácil</h2>
+            <p>Gerencie seu condomínio de forma simples e eficiente</p>
+          </div>
+
+          <div class="dashboard-grid">
+            <!-- Card de Estatísticas -->
+            <div class="dashboard-card stats-card">
+              <h3>📊 Estatísticas</h3>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="stat-number" id="total-moradores">0</span>
+                  <span class="stat-label">Moradores</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number" id="total-comunicacoes">0</span>
+                  <span class="stat-label">Comunicações</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number" id="total-reservas">0</span>
+                  <span class="stat-label">Reservas</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Ações Rápidas -->
+            <div class="dashboard-card actions-card">
+              <h3>⚡ Ações Rápidas</h3>
+              <div class="actions-grid">
+                <button class="action-btn" onclick="showAddMorador()">
+                  <span class="action-icon">👥</span>
+                  <span>Adicionar Morador</span>
+                </button>
+                <button class="action-btn" onclick="showAddComunicacao()">
+                  <span class="action-icon">📢</span>
+                  <span>Nova Comunicação</span>
+                </button>
+                <button class="action-btn" onclick="showAddReserva()">
+                  <span class="action-icon">📅</span>
+                  <span>Nova Reserva</span>
+                </button>
+                <button class="action-btn" onclick="showConfiguracoes()">
+                  <span class="action-icon">⚙️</span>
+                  <span>Configurações</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card de Atividades Recentes -->
+            <div class="dashboard-card recent-card">
+              <h3>🕒 Atividades Recentes</h3>
+              <div class="recent-activities" id="recent-activities">
+                <div class="activity-item">
+                  <span class="activity-icon">✅</span>
+                  <div class="activity-content">
+                    <p>Bem-vindo ao CondoFácil!</p>
+                    <small>Agora mesmo</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Informações do Usuário -->
+            <div class="dashboard-card user-card">
+              <h3>👤 Informações do Usuário</h3>
+              <div class="user-info" id="user-info">
+                <div class="user-avatar">
+                  <span class="avatar-text">U</span>
+                </div>
+                <div class="user-details">
+                  <h4 id="user-name">Carregando...</h4>
+                  <p id="user-email">carregando@email.com</p>
+                  <span class="user-role" id="user-role">Carregando...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>

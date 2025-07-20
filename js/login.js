@@ -73,11 +73,13 @@ class LoginForm {
       if (result.success) {
         this.showNotification('Login realizado com sucesso!', 'success')
 
-        // Redirecionar após 1 segundo
+        // Redirecionar para dashboard após 1 segundo
         setTimeout(() => {
-          window.location.href = 'index.html'
+          window.location.href = 'dashboard.html'
         }, 1000)
       } else {
+        // Mostrar alert com a mensagem de erro
+        alert(`Erro no login: ${result.error}`)
         this.showNotification(result.error, 'error')
       }
     } catch (error) {

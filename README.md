@@ -203,6 +203,7 @@ Para suporte, envie um email para [seu-email@exemplo.com] ou abra uma issue no G
 
 - **`js/cadastro.js`** - Gerenciamento do formulário de cadastro
 - **`js/login.js`** - Gerenciamento do formulário de login
+- **`js/dashboard.js`** - Dashboard principal da aplicação
 - **`js/main.js`** - Aplicação principal
 
 ## 📝 API do Módulo de Registro
@@ -269,6 +270,33 @@ if (resultado.success) {
   uid: "firebase-auth-uid"
 }
 ```
+
+## 🔄 Fluxo de Autenticação
+
+### Cadastro
+
+1. Usuário preenche formulário em `/cadastro.html`
+2. Dados são validados no frontend
+3. Usuário é criado no Firebase Auth
+4. Dados adicionais são salvos no Firestore
+5. **Redirecionamento:** `/dashboard.html`
+
+### Login
+
+1. Usuário preenche formulário em `/login.html`
+2. Credenciais são validadas no Firebase Auth
+3. **Redirecionamento:** `/dashboard.html`
+
+### Dashboard
+
+- **Acesso protegido:** Usuário deve estar autenticado
+- **Redirecionamento automático:** Para `/login.html` se não autenticado
+- **Logout:** Redireciona para `/index.html`
+
+### Tratamento de Erros
+
+- **Sucesso:** Redirecionamento automático para dashboard
+- **Erro:** `alert()` com mensagem específica + notificação visual
 
 ## 🎯 Roadmap
 
