@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comunicados - CondoFácil</title>
+    <meta
+      name="description"
+      content="Sistema de comunicados do CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/comunicados.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="comunicados-section">
+        <div class="container">
+          <div class="comunicados-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Comunicados</h1>
+              <p class="page-description">
+                Envie e visualize comunicados importantes do condomínio
+              </p>
+            </div>
+
+            <!-- Send Communication Form (Síndico only) -->
+            <div
+              id="form-container"
+              class="form-container"
+              style="display: none"
+            >
+              <h2 class="section-title">Enviar Comunicado</h2>
+              <form id="comunicado-form" class="comunicado-form" novalidate>
+                <div class="form-group">
+                  <label for="titulo" class="form-label">
+                    Título
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    id="titulo"
+                    name="titulo"
+                    class="form-input"
+                    placeholder="Título do comunicado"
+                    required
+                    aria-describedby="titulo-error"
+                  />
+                  <div
+                    id="titulo-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="mensagem" class="form-label">
+                    Mensagem
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <textarea
+                    id="mensagem"
+                    name="mensagem"
+                    class="form-textarea"
+                    placeholder="Digite a mensagem do comunicado..."
+                    required
+                    rows="5"
+                    aria-describedby="mensagem-error"
+                  ></textarea>
+                  <div
+                    id="mensagem-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="tipo" class="form-label">
+                    Tipo
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <select
+                    id="tipo"
+                    name="tipo"
+                    class="form-select"
+                    required
+                    aria-describedby="tipo-error"
+                  >
+                    <option value="" disabled selected>Selecione o tipo</option>
+                    <option value="geral">Geral</option>
+                    <option value="manutencao">Manutenção</option>
+                    <option value="seguranca">Segurança</option>
+                    <option value="evento">Evento</option>
+                    <option value="urgencia">Urgência</option>
+                  </select>
+                  <div
+                    id="tipo-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn--primary"
+                    id="btn-enviar"
+                  >
+                    <span class="btn-text">Enviar Comunicado</span>
+                    <span class="btn-loading" style="display: none">
+                      <span class="spinner"></span>
+                      Enviando...
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Communications List -->
+            <div class="communications-container">
+              <h2 class="section-title">Comunicados Recentes</h2>
+              <section id="lista-comunicados" class="lista-comunicados">
+                <!-- Comunicados serão carregados dinamicamente via JavaScript -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando comunicados...
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/comunicados.js"></script>
+  </body>
+</html>

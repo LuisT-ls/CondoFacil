@@ -114,10 +114,10 @@ function handleMenuAction(action) {
   switch (action) {
     // Síndico actions
     case 'gerenciar-reservas':
-      alert('Funcionalidade em desenvolvimento: Gerenciar Reservas')
+      window.location.href = '/gerenciar-reservas.html'
       break
     case 'enviar-comunicados':
-      alert('Funcionalidade em desenvolvimento: Enviar Comunicados')
+      window.location.href = '/comunicados.html'
       break
     case 'prestacao-contas':
       alert('Funcionalidade em desenvolvimento: Prestação de Contas')
@@ -131,10 +131,10 @@ function handleMenuAction(action) {
 
     // Morador actions
     case 'fazer-reserva':
-      alert('Funcionalidade em desenvolvimento: Fazer Reserva')
+      window.location.href = '/reservas.html'
       break
     case 'ver-comunicados':
-      alert('Funcionalidade em desenvolvimento: Ver Comunicados')
+      window.location.href = '/comunicados.html'
       break
     case 'consultar-votacoes':
       alert('Funcionalidade em desenvolvimento: Consultar Votações')

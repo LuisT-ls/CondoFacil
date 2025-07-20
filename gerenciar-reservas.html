@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Reservas - CondoFácil</title>
+    <meta
+      name="description"
+      content="Gerenciamento de reservas do CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/gerenciar-reservas.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="gerenciar-reservas-section">
+        <div class="container">
+          <div class="gerenciar-reservas-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Gerenciar Reservas</h1>
+              <p class="page-description">
+                Aprove, rejeite ou visualize todas as reservas do condomínio
+              </p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-container">
+              <div class="filter-group">
+                <label for="filter-status" class="filter-label">Status:</label>
+                <select id="filter-status" class="filter-select">
+                  <option value="todos">Todos</option>
+                  <option value="pendente">Pendentes</option>
+                  <option value="aprovada">Aprovadas</option>
+                  <option value="rejeitada">Rejeitadas</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="filter-local" class="filter-label">Local:</label>
+                <select id="filter-local" class="filter-select">
+                  <option value="todos">Todos</option>
+                  <option value="salao-festas">Salão de Festas</option>
+                  <option value="churrasqueira">Churrasqueira</option>
+                  <option value="quadra">Quadra</option>
+                  <option value="piscina">Piscina</option>
+                  <option value="academia">Academia</option>
+                  <option value="salao-jogos">Salão de Jogos</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Reservations List -->
+            <div class="reservations-container">
+              <h2 class="section-title">Lista de Reservas</h2>
+              <section id="lista-reservas-admin" class="lista-reservas-admin">
+                <!-- Reservas serão carregadas dinamicamente via JavaScript -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando reservas...
+                </div>
+              </section>
+            </div>
+
+            <!-- Statistics -->
+            <div class="statistics-container">
+              <h2 class="section-title">Estatísticas</h2>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <span class="stat-number" id="total-reservas">0</span>
+                  <span class="stat-label">Total</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-number" id="pendentes">0</span>
+                  <span class="stat-label">Pendentes</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-number" id="aprovadas">0</span>
+                  <span class="stat-label">Aprovadas</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-number" id="rejeitadas">0</span>
+                  <span class="stat-label">Rejeitadas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/gerenciar-reservas.js"></script>
+  </body>
+</html>
