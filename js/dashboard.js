@@ -1,7 +1,6 @@
 // Dashboard Script
 import { getUserData } from './modules/userRole.js'
 import { auth } from './modules/firebase-config.js'
-import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js'
 
 // DOM Elements
 const userNameElement = document.getElementById('user-name')
@@ -50,7 +49,7 @@ function setupLogout() {
   if (logoutButton) {
     logoutButton.addEventListener('click', async () => {
       try {
-        await signOut(auth)
+        await auth.signOut()
         // Redirect will happen automatically via userRole.js
       } catch (error) {
         console.error('Erro ao fazer logout:', error)

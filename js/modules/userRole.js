@@ -37,7 +37,29 @@ export async function getUserData() {
           }
         } catch (error) {
           console.error('Erro ao buscar dados do usuário:', error)
-          reject(error)
+
+          // Se for erro offline, retornar dados básicos do Auth
+          if (
+            error.code === 'unavailable' ||
+            error.message.includes('offline')
+          ) {
+            console.warn('Firestore offline, usando dados básicos do Auth')
+            resolve({
+              nome: user.displayName || 'Usuário',
+              email: user.email,
+              papel: 'morador',
+              condominioId: null
+            })
+          } else {
+            // Para outros erros, também usar dados básicos do Auth
+            console.warn('Erro no Firestore, usando dados básicos do Auth')
+            resolve({
+              nome: user.displayName || 'Usuário',
+              email: user.email,
+              papel: 'morador',
+              condominioId: null
+            })
+          }
         }
       } else {
         // User is not signed in, redirect to login

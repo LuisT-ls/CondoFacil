@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permitir acesso total durante desenvolvimento
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    
+    // Regras mais específicas para produção (comentar durante desenvolvimento)
+    /*
+    match /usuarios/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /condominios/{condominioId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /condominios/{condominioId}/reservas/{reservaId} {
+      allow read, write: if request.auth != null;
+    }
+    */
+  }
+} 
