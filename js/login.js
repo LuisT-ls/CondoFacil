@@ -6,6 +6,7 @@ class LoginForm {
   constructor() {
     this.form = document.getElementById('login-form')
     this.submitButton = document.getElementById('btn-entrar')
+    this.btnGoogle = document.getElementById('btn-google')
     this.isSubmitting = false
 
     this.init()
@@ -21,6 +22,11 @@ class LoginForm {
   // Configurar event listeners
   setupEventListeners() {
     this.form.addEventListener('submit', e => this.handleSubmit(e))
+
+    // Botão do Google
+    if (this.btnGoogle) {
+      this.btnGoogle.addEventListener('click', () => this.handleGoogleLogin())
+    }
 
     // Validação em tempo real
     const inputs = this.form.querySelectorAll('input')
@@ -104,6 +110,37 @@ class LoginForm {
     } catch (error) {
       console.error('❌ Erro no login:', error)
       return { success: false, error: error.message }
+    }
+  }
+
+  // Fazer login com Google
+  async handleGoogleLogin() {
+    try {
+      console.log('🔐 Iniciando login com Google...')
+
+      const result = await authService.loginWithGoogle()
+
+      if (result.success) {
+        console.log(
+          '✅ Login com Google realizado com sucesso:',
+          result.user.email
+        )
+        this.showNotification(
+          'Login com Google realizado com sucesso!',
+          'success'
+        )
+
+        // Redirecionar para dashboard após 1 segundo
+        setTimeout(() => {
+          window.location.href = 'dashboard.html'
+        }, 1000)
+      } else {
+        console.error('❌ Erro no login com Google:', result.error)
+        alert(`Erro no login com Google: ${result.error}`)
+      }
+    } catch (error) {
+      console.error('❌ Erro inesperado no login com Google:', error)
+      alert('Erro inesperado. Tente novamente.')
     }
   }
 

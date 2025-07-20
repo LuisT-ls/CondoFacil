@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas - CondoFácil</title>
+    <meta
+      name="description"
+      content="Gerenciamento de reservas do CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/reservas.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+
+    <!-- Firebase SDK -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="index.html#features">Funcionalidades</a></li>
+              <li><a href="index.html#about">Sobre</a></li>
+              <li><a href="index.html#contact">Contato</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="reservas-section">
+        <div class="container">
+          <div class="reservas-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Reservas</h1>
+              <p class="page-description">
+                Faça sua reserva para os espaços comuns do condomínio
+              </p>
+            </div>
+
+            <!-- Reservation Form -->
+            <div class="form-container">
+              <h2 class="form-title">Nova Reserva</h2>
+              <form id="reserva-form" class="reserva-form" novalidate>
+                <div class="form-group">
+                  <label for="data" class="form-label">
+                    Data da Reserva
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="date"
+                    id="data"
+                    name="data"
+                    class="form-input"
+                    required
+                    min=""
+                    aria-describedby="data-error"
+                  />
+                  <div
+                    id="data-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="hora" class="form-label">
+                    Horário
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="time"
+                    id="hora"
+                    name="hora"
+                    class="form-input"
+                    required
+                    aria-describedby="hora-error"
+                  />
+                  <div
+                    id="hora-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="local" class="form-label">
+                    Local
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <select
+                    id="local"
+                    name="local"
+                    class="form-select"
+                    required
+                    aria-describedby="local-error"
+                  >
+                    <option value="" disabled selected>
+                      Selecione o local
+                    </option>
+                    <option value="salao-festas">Salão de Festas</option>
+                    <option value="churrasqueira">Churrasqueira</option>
+                    <option value="quadra">Quadra</option>
+                    <option value="piscina">Piscina</option>
+                    <option value="academia">Academia</option>
+                    <option value="salao-jogos">Salão de Jogos</option>
+                  </select>
+                  <div
+                    id="local-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn--primary"
+                    id="btnReservar"
+                  >
+                    <span class="btn-text">Reservar</span>
+                    <span class="btn-loading" style="display: none">
+                      <span class="spinner"></span>
+                      Reservando...
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Reservations List -->
+            <div class="list-container">
+              <h2 class="list-title">Minhas Reservas</h2>
+              <section id="lista-reservas" class="lista-reservas">
+                <!-- Reservas serão carregadas dinamicamente via JavaScript -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando reservas...
+                </div>
+              </section>
+            </div>
+
+            <!-- Back to Dashboard -->
+            <div class="back-container">
+              <a href="dashboard.html" class="btn btn--secondary">
+                ← Voltar ao Painel
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/reservas.js"></script>
+  </body>
+</html>

@@ -71,6 +71,72 @@ export async function registerUser(nome, email, senha, papel) {
 }
 
 /**
+ * Registra um usuário que fez login com Google
+ * @param {Object} user - Objeto do usuário do Firebase Auth
+ * @param {string} papel - Papel do usuário ('sindico' ou 'morador')
+ * @returns {Promise<{success: boolean, user?: any, error?: string}>}
+ */
+export async function registerGoogleUser(user, papel) {
+  try {
+    console.log('🚀 Iniciando registro de usuário Google:', { 
+      nome: user.displayName, 
+      email: user.email, 
+      papel 
+    })
+
+    // Verificar se o usuário já existe no Firestore
+    const existingUser = await getUserData(user.uid)
+    
+    if (existingUser) {
+      console.log('✅ Usuário Google já existe no Firestore')
+      return {
+        success: true,
+        user: {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          ...existingUser
+        }
+      }
+    }
+
+    // Salvar dados do usuário Google no Firestore
+    const userData = {
+      nome: user.displayName || user.email,
+      email: user.email,
+      papel: papel,
+      condominioId: null,
+      dataCadastro: new Date(),
+      status: 'ativo',
+      uid: user.uid
+    }
+
+    await setDoc(doc(db, 'usuarios', user.uid), userData)
+
+    console.log('✅ Dados do usuário Google salvos no Firestore')
+
+    return {
+      success: true,
+      user: {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        ...userData
+      }
+    }
+  } catch (error) {
+    console.error('❌ Erro no registro do usuário Google:', error)
+
+    const errorMessage = getErrorMessage(error.code)
+
+    return {
+      success: false,
+      error: errorMessage
+    }
+  }
+}
+
+/**
  * Traduz códigos de erro do Firebase para português
  * @param {string} errorCode - Código de erro do Firebase
  * @returns {string} - Mensagem de erro traduzida

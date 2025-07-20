@@ -5,7 +5,9 @@ import {
   signOut,
   onAuthStateChanged,
   sendPasswordResetEmail,
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth'
 import { auth } from './firebase-config.js'
 
@@ -44,6 +46,19 @@ class AuthService {
       return { success: true, user: userCredential.user }
     } catch (error) {
       console.error('❌ Erro no login:', error.message)
+      return { success: false, error: this.getErrorMessage(error.code) }
+    }
+  }
+
+  // Login com Google
+  async loginWithGoogle() {
+    try {
+      const provider = new GoogleAuthProvider()
+      const userCredential = await signInWithPopup(auth, provider)
+      console.log('🎉 Login com Google realizado com sucesso!')
+      return { success: true, user: userCredential.user }
+    } catch (error) {
+      console.error('❌ Erro no login com Google:', error.message)
       return { success: false, error: this.getErrorMessage(error.code) }
     }
   }
@@ -147,7 +162,13 @@ class AuthService {
       'auth/weak-password': 'Senha muito fraca',
       'auth/invalid-email': 'Email inválido',
       'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
-      'auth/network-request-failed': 'Erro de conexão. Verifique sua internet'
+      'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
+      'auth/popup-closed-by-user': 'Login cancelado pelo usuário',
+      'auth/popup-blocked':
+        'Popup bloqueado pelo navegador. Permita popups para este site',
+      'auth/cancelled-popup-request': 'Login cancelado',
+      'auth/account-exists-with-different-credential':
+        'Conta já existe com credenciais diferentes'
     }
     return errorMessages[errorCode] || 'Erro desconhecido'
   }
