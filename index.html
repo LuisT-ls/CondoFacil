@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CondoFácil - Gestão de Condomínios</title>
+    <meta
+      name="description"
+      content="Sistema completo de gestão de condomínios com Firebase"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+    <!-- Firebase SDK -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1>CondoFácil</h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="#home">Início</a></li>
+              <li><a href="#features">Funcionalidades</a></li>
+              <li><a href="#about">Sobre</a></li>
+              <li><a href="#contact">Contato</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Hero Section -->
+      <section id="home" class="hero">
+        <div class="container">
+          <div class="hero__content">
+            <h2>Bem-vindo ao CondoFácil</h2>
+            <p>
+              O sistema completo para gestão de condomínios com tecnologia
+              Firebase
+            </p>
+            <div class="hero__status">
+              <div class="status-item">
+                <span class="status-icon">✅</span>
+                <span>Firebase Conectado</span>
+              </div>
+              <div class="status-item">
+                <span class="status-icon">📊</span>
+                <span>Analytics Ativo</span>
+              </div>
+              <div class="status-item">
+                <span class="status-icon">🔐</span>
+                <span>Autenticação Pronta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="features" class="features">
+        <div class="container">
+          <h2>Funcionalidades Principais</h2>
+          <div class="features__grid">
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h3>Gestão de Moradores</h3>
+              <p>Cadastro e controle de moradores do condomínio</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📢</div>
+              <h3>Comunicações</h3>
+              <p>Sistema de avisos e notificações</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📅</div>
+              <h3>Reservas</h3>
+              <p>Agendamento de áreas comuns</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">💰</div>
+              <h3>Financeiro</h3>
+              <p>Controle de taxas e despesas</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="about">
+        <div class="container">
+          <h2>Sobre o CondoFácil</h2>
+          <p>
+            O CondoFácil é uma aplicação moderna desenvolvida com Firebase,
+            oferecendo uma solução completa para a gestão de condomínios. Com
+            tecnologia em tempo real, autenticação segura e armazenamento na
+            nuvem.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
