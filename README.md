@@ -190,6 +190,86 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 Para suporte, envie um email para [seu-email@exemplo.com] ou abra uma issue no GitHub.
 
+## 🔧 Módulos Principais
+
+### Autenticação e Registro
+
+- **`js/modules/auth.js`** - Sistema de autenticação completo
+- **`js/modules/register.js`** - Registro de usuários com Firebase Auth + Firestore
+- **`js/modules/database.js`** - Operações CRUD no Firestore
+- **`js/modules/firebase-config.js`** - Configuração do Firebase
+
+### Funcionalidades
+
+- **`js/cadastro.js`** - Gerenciamento do formulário de cadastro
+- **`js/login.js`** - Gerenciamento do formulário de login
+- **`js/main.js`** - Aplicação principal
+
+## 📝 API do Módulo de Registro
+
+### `registerUser(nome, email, senha, papel)`
+
+Registra um novo usuário no Firebase Auth e salva dados no Firestore.
+
+**Parâmetros:**
+
+- `nome` (string) - Nome completo do usuário
+- `email` (string) - Email do usuário
+- `senha` (string) - Senha do usuário (mínimo 6 caracteres)
+- `papel` (string) - Papel do usuário ('sindico' ou 'morador')
+
+**Retorna:**
+
+```javascript
+{
+  success: boolean,
+  user?: {
+    uid: string,
+    email: string,
+    displayName: string,
+    nome: string,
+    papel: string,
+    condominioId: null,
+    dataCadastro: Date,
+    status: string
+  },
+  error?: string
+}
+```
+
+**Exemplo de uso:**
+
+```javascript
+import { registerUser } from './js/modules/register.js'
+
+const resultado = await registerUser(
+  'João Silva',
+  'joao@exemplo.com',
+  'senha123456',
+  'sindico'
+)
+
+if (resultado.success) {
+  console.log('Usuário registrado:', resultado.user)
+} else {
+  console.error('Erro:', resultado.error)
+}
+```
+
+### Estrutura no Firestore
+
+```javascript
+{
+  nome: "João Silva",
+  email: "joao@exemplo.com",
+  papel: "sindico",
+  condominioId: null,
+  dataCadastro: Timestamp,
+  status: "ativo",
+  uid: "firebase-auth-uid"
+}
+```
+
 ## 🎯 Roadmap
 
 - [ ] Sistema de pagamentos

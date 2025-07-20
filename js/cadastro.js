@@ -1,6 +1,7 @@
 // Importar módulos do Firebase
 import { authService } from './modules/auth.js'
 import { databaseService } from './modules/database.js'
+import { registerUser, validateRegistrationData } from './modules/register.js'
 
 // Classe para gerenciar o formulário de cadastro
 class CadastroForm {
@@ -88,36 +89,28 @@ class CadastroForm {
   // Registrar usuário
   async registerUser(formData) {
     try {
-      // Registrar no Firebase Auth
-      const authResult = await authService.register(
+      // Validar dados do formulário
+      const validation = validateRegistrationData(formData)
+      if (!validation.isValid) {
+        return {
+          success: false,
+          error: Object.values(validation.errors)[0]
+        }
+      }
+
+      // Registrar usuário usando o novo módulo
+      const result = await registerUser(
+        formData.nome,
         formData.email,
         formData.senha,
-        formData.nome
+        formData.papel
       )
 
-      if (!authResult.success) {
-        return authResult
+      if (result.success) {
+        console.log('✅ Usuário registrado com sucesso:', result.user.email)
       }
 
-      // Salvar dados adicionais no Firestore
-      const userData = {
-        nome: formData.nome,
-        email: formData.email,
-        papel: formData.papel,
-        dataCadastro: new Date(),
-        status: 'ativo'
-      }
-
-      const dbResult = await databaseService.create('usuarios', userData)
-
-      if (dbResult.success) {
-        console.log('✅ Usuário registrado com sucesso:', authResult.user.email)
-        return { success: true, user: authResult.user }
-      } else {
-        // Se falhou no Firestore, deletar o usuário do Auth
-        await authService.logout()
-        return { success: false, error: 'Erro ao salvar dados do usuário.' }
-      }
+      return result
     } catch (error) {
       console.error('❌ Erro no registro:', error)
       return { success: false, error: error.message }
