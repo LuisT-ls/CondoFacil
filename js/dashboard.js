@@ -126,7 +126,7 @@ function handleMenuAction(action) {
       alert('Funcionalidade em desenvolvimento: Gerenciar Documentos')
       break
     case 'iniciar-votacao':
-      alert('Funcionalidade em desenvolvimento: Iniciar Votação')
+      window.location.href = '/votacoes.html'
       break
 
     // Morador actions
@@ -137,7 +137,7 @@ function handleMenuAction(action) {
       window.location.href = '/comunicados.html'
       break
     case 'consultar-votacoes':
-      alert('Funcionalidade em desenvolvimento: Consultar Votações')
+      window.location.href = '/votacoes.html'
       break
 
     default:

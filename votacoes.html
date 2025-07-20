@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Votações - CondoFácil</title>
+    <meta
+      name="description"
+      content="Sistema de votações do CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/votacoes.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="votacoes-section">
+        <div class="container">
+          <div class="votacoes-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Votações</h1>
+              <p class="page-description">
+                Participe das votações e acompanhe os resultados
+              </p>
+            </div>
+
+            <!-- Create Voting Form (Síndico only) -->
+            <div
+              id="form-container"
+              class="form-container"
+              style="display: none"
+            >
+              <h2 class="section-title">Criar Nova Votação</h2>
+              <form id="votacao-form" class="votacao-form" novalidate>
+                <div class="form-group">
+                  <label for="titulo" class="form-label">
+                    Título da Votação
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    id="titulo"
+                    name="titulo"
+                    class="form-input"
+                    placeholder="Ex: Aprovação de reforma da piscina"
+                    required
+                    aria-describedby="titulo-error"
+                  />
+                  <div
+                    id="titulo-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="descricao" class="form-label">
+                    Descrição
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <textarea
+                    id="descricao"
+                    name="descricao"
+                    class="form-textarea"
+                    placeholder="Descreva detalhadamente a proposta..."
+                    required
+                    rows="4"
+                    aria-describedby="descricao-error"
+                  ></textarea>
+                  <div
+                    id="descricao-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="data-fim" class="form-label">
+                    Data de Encerramento
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="datetime-local"
+                    id="data-fim"
+                    name="data-fim"
+                    class="form-input"
+                    required
+                    aria-describedby="data-fim-error"
+                  />
+                  <div
+                    id="data-fim-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="tipo" class="form-label">
+                    Tipo de Votação
+                    <span class="required" aria-label="campo obrigatório"
+                      >*</span
+                    >
+                  </label>
+                  <select
+                    id="tipo"
+                    name="tipo"
+                    class="form-select"
+                    required
+                    aria-describedby="tipo-error"
+                  >
+                    <option value="" disabled selected>Selecione o tipo</option>
+                    <option value="sim-nao">Sim/Não</option>
+                    <option value="multipla-escolha">Múltipla Escolha</option>
+                  </select>
+                  <div
+                    id="tipo-error"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                  ></div>
+                </div>
+
+                <div
+                  id="opcoes-container"
+                  class="opcoes-container"
+                  style="display: none"
+                >
+                  <label class="form-label">Opções de Votação</label>
+                  <div id="opcoes-list" class="opcoes-list">
+                    <div class="opcao-item">
+                      <input
+                        type="text"
+                        class="form-input opcao-input"
+                        placeholder="Opção 1"
+                        required
+                      />
+                      <button
+                        type="button"
+                        class="btn-remove-opcao"
+                        onclick="removeOpcao(this)"
+                      >
+                        ❌
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn-add-opcao"
+                    onclick="addOpcao()"
+                  >
+                    ➕ Adicionar Opção
+                  </button>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn--primary" id="btn-criar">
+                    <span class="btn-text">Criar Votação</span>
+                    <span class="btn-loading" style="display: none">
+                      <span class="spinner"></span>
+                      Criando...
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Active Votings -->
+            <div class="active-votings-container">
+              <h2 class="section-title">Votações Ativas</h2>
+              <section id="lista-votacoes-ativas" class="lista-votacoes">
+                <!-- Votações ativas serão carregadas dinamicamente -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando votações...
+                </div>
+              </section>
+            </div>
+
+            <!-- Past Votings -->
+            <div class="past-votings-container">
+              <h2 class="section-title">Votações Encerradas</h2>
+              <section id="lista-votacoes-encerradas" class="lista-votacoes">
+                <!-- Votações encerradas serão carregadas dinamicamente -->
+                <div class="loading-message">
+                  <span class="spinner"></span>
+                  Carregando resultados...
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/votacoes.js"></script>
+  </body>
+</html>
