@@ -183,13 +183,13 @@ function handleMenuAction(action) {
       alert('Funcionalidade em desenvolvimento: Gerenciar Documentos')
       break
     case 'gerenciar-usuarios':
-      alert('Funcionalidade em desenvolvimento: Gerenciar Usuários')
+      window.location.href = '/gerenciar-usuarios.html'
       break
     case 'relatorios':
-      alert('Funcionalidade em desenvolvimento: Relatórios')
+      window.location.href = '/relatorios.html'
       break
     case 'configuracoes':
-      alert('Funcionalidade em desenvolvimento: Configurações')
+      window.location.href = '/configuracoes.html'
       break
     case 'iniciar-votacao':
       window.location.href = '/votacoes.html'

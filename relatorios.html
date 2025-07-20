@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatórios - CondoFácil</title>
+    <meta
+      name="description"
+      content="Relatórios e análises do sistema CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/relatorios.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="relatorios-section">
+        <div class="container">
+          <div class="relatorios-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Relatórios</h1>
+              <p class="page-description">
+                Análises e estatísticas do condomínio
+              </p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+              <div class="filter-group">
+                <label for="periodo" class="filter-label">Período</label>
+                <select id="periodo" class="filter-select">
+                  <option value="7">Últimos 7 dias</option>
+                  <option value="30" selected>Últimos 30 dias</option>
+                  <option value="90">Últimos 3 meses</option>
+                  <option value="365">Último ano</option>
+                  <option value="custom">Período personalizado</option>
+                </select>
+              </div>
+
+              <div
+                class="filter-group"
+                id="custom-period"
+                style="display: none"
+              >
+                <label for="data-inicio" class="filter-label"
+                  >Data Início</label
+                >
+                <input type="date" id="data-inicio" class="filter-input" />
+              </div>
+
+              <div
+                class="filter-group"
+                id="custom-period-end"
+                style="display: none"
+              >
+                <label for="data-fim" class="filter-label">Data Fim</label>
+                <input type="date" id="data-fim" class="filter-input" />
+              </div>
+
+              <div class="filter-group">
+                <button id="btn-gerar-relatorio" class="btn btn--primary">
+                  📊 Gerar Relatório
+                </button>
+              </div>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+              <div class="card">
+                <div class="card-icon">👥</div>
+                <div class="card-content">
+                  <h3>Total de Usuários</h3>
+                  <p id="total-usuarios">0</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-icon">📅</div>
+                <div class="card-content">
+                  <h3>Reservas Realizadas</h3>
+                  <p id="total-reservas">0</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-icon">🗳️</div>
+                <div class="card-content">
+                  <h3>Votações Ativas</h3>
+                  <p id="total-votacoes">0</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-icon">📢</div>
+                <div class="card-content">
+                  <h3>Comunicados Enviados</h3>
+                  <p id="total-comunicados">0</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+              <div class="chart-container">
+                <h3>Reservas por Área</h3>
+                <canvas id="chart-reservas-areas"></canvas>
+              </div>
+
+              <div class="chart-container">
+                <h3>Atividade por Dia</h3>
+                <canvas id="chart-atividade-dia"></canvas>
+              </div>
+            </div>
+
+            <!-- Detailed Reports -->
+            <div class="reports-section">
+              <div class="report-tabs">
+                <button class="report-tab active" data-report="reservas">
+                  📅 Reservas
+                </button>
+                <button class="report-tab" data-report="usuarios">
+                  👥 Usuários
+                </button>
+                <button class="report-tab" data-report="votacoes">
+                  🗳️ Votações
+                </button>
+                <button class="report-tab" data-report="comunicados">
+                  📢 Comunicações
+                </button>
+              </div>
+
+              <!-- Reservas Report -->
+              <div id="reservas" class="report-content active">
+                <div class="report-header">
+                  <h3>Relatório de Reservas</h3>
+                  <button id="export-reservas" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Data</th>
+                        <th>Área</th>
+                        <th>Morador</th>
+                        <th>Horário</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="reservas-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Usuários Report -->
+              <div id="usuarios" class="report-content">
+                <div class="report-header">
+                  <h3>Relatório de Usuários</h3>
+                  <button id="export-usuarios" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Papel</th>
+                        <th>Data Cadastro</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="usuarios-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Votações Report -->
+              <div id="votacoes" class="report-content">
+                <div class="report-header">
+                  <h3>Relatório de Votações</h3>
+                  <button id="export-votacoes" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Data Criação</th>
+                        <th>Data Fim</th>
+                        <th>Participantes</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="votacoes-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Comunicados Report -->
+              <div id="comunicados" class="report-content">
+                <div class="report-header">
+                  <h3>Relatório de Comunicações</h3>
+                  <button id="export-comunicados" class="btn btn--secondary">
+                    📤 Exportar
+                  </button>
+                </div>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Data Envio</th>
+                        <th>Prioridade</th>
+                        <th>Lidos</th>
+                      </tr>
+                    </thead>
+                    <tbody id="comunicados-table-body">
+                      <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/relatorios.js"></script>
+  </body>
+</html>

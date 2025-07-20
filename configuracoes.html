@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações - CondoFácil</title>
+    <meta
+      name="description"
+      content="Configurações do sistema CondoFácil - Sistema de Gestão de Condomínios"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/configuracoes.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/img/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/img/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/img/favicon/site.webmanifest" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <h1><a href="index.html">CondoFácil</a></h1>
+            <p>Sistema de Gestão de Condomínios</p>
+          </div>
+          <nav class="header__nav">
+            <ul>
+              <li><a href="dashboard.html">← Voltar ao Painel</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="configuracoes-section">
+        <div class="container">
+          <div class="configuracoes-container">
+            <!-- Page Header -->
+            <div class="page-header">
+              <h1 class="page-title">Configurações</h1>
+              <p class="page-description">
+                Gerencie as configurações do sistema
+              </p>
+            </div>
+
+            <!-- Settings Navigation -->
+            <div class="settings-nav">
+              <button class="nav-tab active" data-tab="geral">⚙️ Geral</button>
+              <button class="nav-tab" data-tab="reservas">📅 Reservas</button>
+              <button class="nav-tab" data-tab="notificacoes">
+                🔔 Notificações
+              </button>
+              <button class="nav-tab" data-tab="seguranca">🔐 Segurança</button>
+              <button class="nav-tab" data-tab="backup">💾 Backup</button>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="settings-content">
+              <!-- Geral Settings -->
+              <div id="geral" class="settings-panel active">
+                <h2 class="panel-title">Configurações Gerais</h2>
+
+                <form id="form-geral" class="settings-form">
+                  <div class="form-group">
+                    <label for="nome-condominio" class="form-label">
+                      Nome do Condomínio
+                    </label>
+                    <input
+                      type="text"
+                      id="nome-condominio"
+                      name="nome-condominio"
+                      class="form-input"
+                      placeholder="Nome do condomínio"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="endereco-condominio" class="form-label">
+                      Endereço
+                    </label>
+                    <textarea
+                      id="endereco-condominio"
+                      name="endereco-condominio"
+                      class="form-textarea"
+                      placeholder="Endereço completo do condomínio"
+                      rows="3"
+                    ></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="telefone-condominio" class="form-label">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      id="telefone-condominio"
+                      name="telefone-condominio"
+                      class="form-input"
+                      placeholder="(11) 99999-9999"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email-condominio" class="form-label">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email-condominio"
+                      name="email-condominio"
+                      class="form-input"
+                      placeholder="contato@condominio.com"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="fuso-horario" class="form-label">
+                      Fuso Horário
+                    </label>
+                    <select
+                      id="fuso-horario"
+                      name="fuso-horario"
+                      class="form-select"
+                    >
+                      <option value="America/Sao_Paulo">
+                        Brasília (GMT-3)
+                      </option>
+                      <option value="America/Manaus">Manaus (GMT-4)</option>
+                      <option value="America/Belem">Belém (GMT-3)</option>
+                      <option value="America/Fortaleza">
+                        Fortaleza (GMT-3)
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="idioma" class="form-label"> Idioma </label>
+                    <select id="idioma" name="idioma" class="form-select">
+                      <option value="pt-BR">Português (Brasil)</option>
+                      <option value="en">English</option>
+                      <option value="es">Español</option>
+                    </select>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">
+                      💾 Salvar Configurações
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Reservas Settings -->
+              <div id="reservas" class="settings-panel">
+                <h2 class="panel-title">Configurações de Reservas</h2>
+
+                <form id="form-reservas" class="settings-form">
+                  <div class="form-group">
+                    <label for="tempo-minimo-reserva" class="form-label">
+                      Tempo Mínimo de Antecedência (horas)
+                    </label>
+                    <input
+                      type="number"
+                      id="tempo-minimo-reserva"
+                      name="tempo-minimo-reserva"
+                      class="form-input"
+                      min="0"
+                      max="168"
+                      value="24"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tempo-maximo-reserva" class="form-label">
+                      Tempo Máximo de Antecedência (dias)
+                    </label>
+                    <input
+                      type="number"
+                      id="tempo-maximo-reserva"
+                      name="tempo-maximo-reserva"
+                      class="form-input"
+                      min="1"
+                      max="365"
+                      value="30"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="duracao-maxima-reserva" class="form-label">
+                      Duração Máxima por Reserva (horas)
+                    </label>
+                    <input
+                      type="number"
+                      id="duracao-maxima-reserva"
+                      name="duracao-maxima-reserva"
+                      class="form-input"
+                      min="1"
+                      max="24"
+                      value="4"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="limite-reservas-por-morador" class="form-label">
+                      Limite de Reservas por Morador (por mês)
+                    </label>
+                    <input
+                      type="number"
+                      id="limite-reservas-por-morador"
+                      name="limite-reservas-por-morador"
+                      class="form-input"
+                      min="1"
+                      max="50"
+                      value="5"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Áreas Disponíveis</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="salao-festas"
+                          checked
+                        />
+                        <span>Salão de Festas</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="churrasqueira"
+                          checked
+                        />
+                        <span>Churrasqueira</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="quadra"
+                          checked
+                        />
+                        <span>Quadra</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="piscina"
+                          checked
+                        />
+                        <span>Piscina</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="academia"
+                          checked
+                        />
+                        <span>Academia</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="areas"
+                          value="salao-jogos"
+                          checked
+                        />
+                        <span>Salão de Jogos</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">
+                      💾 Salvar Configurações
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Notificações Settings -->
+              <div id="notificacoes" class="settings-panel">
+                <h2 class="panel-title">Configurações de Notificações</h2>
+
+                <form id="form-notificacoes" class="settings-form">
+                  <div class="form-group">
+                    <label class="form-label">Tipos de Notificação</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="notificacoes"
+                          value="reservas"
+                          checked
+                        />
+                        <span>Reservas (aprovadas/rejeitadas)</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="notificacoes"
+                          value="comunicados"
+                          checked
+                        />
+                        <span>Comunicados</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="notificacoes"
+                          value="votacoes"
+                          checked
+                        />
+                        <span>Votações</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="notificacoes"
+                          value="lembretes"
+                          checked
+                        />
+                        <span>Lembretes</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email-notificacoes" class="form-label">
+                      Email para Notificações
+                    </label>
+                    <input
+                      type="email"
+                      id="email-notificacoes"
+                      name="email-notificacoes"
+                      class="form-input"
+                      placeholder="notificacoes@condominio.com"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="horario-notificacoes" class="form-label">
+                      Horário para Envio de Notificações
+                    </label>
+                    <input
+                      type="time"
+                      id="horario-notificacoes"
+                      name="horario-notificacoes"
+                      class="form-input"
+                      value="09:00"
+                    />
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">
+                      💾 Salvar Configurações
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Segurança Settings -->
+              <div id="seguranca" class="settings-panel">
+                <h2 class="panel-title">Configurações de Segurança</h2>
+
+                <form id="form-seguranca" class="settings-form">
+                  <div class="form-group">
+                    <label for="senha-minima" class="form-label">
+                      Tamanho Mínimo de Senha
+                    </label>
+                    <input
+                      type="number"
+                      id="senha-minima"
+                      name="senha-minima"
+                      class="form-input"
+                      min="6"
+                      max="20"
+                      value="8"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Requisitos de Senha</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="requisitos-senha"
+                          value="maiusculas"
+                          checked
+                        />
+                        <span>Letras maiúsculas</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="requisitos-senha"
+                          value="minusculas"
+                          checked
+                        />
+                        <span>Letras minúsculas</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="requisitos-senha"
+                          value="numeros"
+                          checked
+                        />
+                        <span>Números</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="requisitos-senha"
+                          value="especiais"
+                        />
+                        <span>Caracteres especiais</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sessao-timeout" class="form-label">
+                      Timeout de Sessão (minutos)
+                    </label>
+                    <input
+                      type="number"
+                      id="sessao-timeout"
+                      name="sessao-timeout"
+                      class="form-input"
+                      min="5"
+                      max="480"
+                      value="30"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Autenticação</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="auth"
+                          value="email-senha"
+                          checked
+                        />
+                        <span>Email/Senha</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          name="auth"
+                          value="google"
+                          checked
+                        />
+                        <span>Google</span>
+                      </label>
+                      <label class="checkbox-item">
+                        <input type="checkbox" name="auth" value="telefone" />
+                        <span>Telefone</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">
+                      💾 Salvar Configurações
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Backup Settings -->
+              <div id="backup" class="settings-panel">
+                <h2 class="panel-title">Backup e Restauração</h2>
+
+                <div class="backup-info">
+                  <div class="info-card">
+                    <h3>📊 Último Backup</h3>
+                    <p id="ultimo-backup">Nunca realizado</p>
+                  </div>
+
+                  <div class="info-card">
+                    <h3>💾 Tamanho dos Dados</h3>
+                    <p id="tamanho-dados">Calculando...</p>
+                  </div>
+
+                  <div class="info-card">
+                    <h3>👥 Usuários Ativos</h3>
+                    <p id="usuarios-ativos">Calculando...</p>
+                  </div>
+                </div>
+
+                <div class="backup-actions">
+                  <button id="btn-backup" class="btn btn--primary">
+                    💾 Fazer Backup
+                  </button>
+                  <button id="btn-restaurar" class="btn btn--secondary">
+                    🔄 Restaurar Backup
+                  </button>
+                  <button id="btn-exportar" class="btn btn--info">
+                    📤 Exportar Dados
+                  </button>
+                </div>
+
+                <div class="backup-schedule">
+                  <h3>🕐 Backup Automático</h3>
+                  <form id="form-backup" class="settings-form">
+                    <div class="form-group">
+                      <label class="form-label">Frequência</label>
+                      <select
+                        id="frequencia-backup"
+                        name="frequencia-backup"
+                        class="form-select"
+                      >
+                        <option value="diario">Diário</option>
+                        <option value="semanal" selected>Semanal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="desabilitado">Desabilitado</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="horario-backup" class="form-label">
+                        Horário do Backup
+                      </label>
+                      <input
+                        type="time"
+                        id="horario-backup"
+                        name="horario-backup"
+                        class="form-input"
+                        value="02:00"
+                      />
+                    </div>
+
+                    <div class="form-actions">
+                      <button type="submit" class="btn btn--primary">
+                        💾 Salvar Configurações
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 CondoFácil. Desenvolvido com Firebase.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/configuracoes.js"></script>
+  </body>
+</html>
