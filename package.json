@@ -1,0 +1,19 @@
+{
+  "name": "projeto-web-modular",
+  "version": "1.0.0",
+  "description": "Projeto web com estrutura CSS modular",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python -m SimpleHTTPServer 8000"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "javascript",
+    "modular",
+    "web"
+  ],
+  "author": "",
+  "license": "MIT"
+}

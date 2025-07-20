@@ -1,0 +1,86 @@
+/* ===================================================================
+   MAIN.CSS - Arquivo CSS Principal Modular
+   =================================================================== */
+
+/* -------------------------------------------------------------------
+   BASE - Estilos fundamentais e configurações globais
+   ------------------------------------------------------------------- */
+@import url('./modules/base/reset.css');
+@import url('./modules/base/variables.css');
+@import url('./modules/base/var-darkmode.css');
+@import url('./modules/base/typography.css');
+@import url('./modules/base/animations.css');
+@import url('./modules/base/scrollbar.css');
+
+/* -------------------------------------------------------------------
+   LAYOUT - Estrutura e organização das seções
+   ------------------------------------------------------------------- */
+@import url('./modules/layout/container.css');
+@import url('./modules/layout/header.css');
+@import url('./modules/layout/section.css');
+@import url('./modules/layout/footer.css');
+
+/* -------------------------------------------------------------------
+   COMPONENTS - Componentes reutilizáveis
+   ------------------------------------------------------------------- */
+@import url('./modules/components/buttons.css');
+@import url('./modules/components/inputs.css');
+@import url('./modules/components/modal.css');
+@import url('./modules/components/notification.css');
+@import url('./modules/components/icon.css');
+@import url('./modules/components/flags.css');
+@import url('./modules/components/theme-toggle.css');
+
+/* -------------------------------------------------------------------
+   FEATURES - Funcionalidades específicas
+   ------------------------------------------------------------------- */
+/* Arquivos de features serão importados aqui conforme necessário */
+
+/* -------------------------------------------------------------------
+   UTILS - Utilitários e classes auxiliares
+   ------------------------------------------------------------------- */
+@import url('./modules/utils/spacing.css');
+@import url('./modules/utils/responsive.css');
+@import url('./modules/utils/accessibility.css');
+@import url('./modules/utils/darkmode.css');
+@import url('./modules/utils/tooltip.css');
+
+/* -------------------------------------------------------------------
+   PAGES - Estilos específicos de páginas
+   ------------------------------------------------------------------- */
+@import url('../../pages/css/privacy.css');
+@import url('../../pages/css/terms-of-service.css');
+
+/* ===================================================================
+   ESTILOS GLOBAIS ADICIONAIS
+   =================================================================== */
+
+/* Estilos que precisam ser aplicados após todos os imports */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Classe utilitária para screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
